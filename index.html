@@ -1,943 +1,820 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MD Talk — Sala de Espera</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Raleway:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<p>Airport, Flight & Immigration — English for Travelers</p>
 <style>
-  :root {
-    --navy:       #0B1D3A;
-    --navy-deep:  #050D1A;
-    --navy-mid:   #0F2645;
-    --navy-light: #163158;
-    --gold:       #C4A45A;
-    --gold-light: #D4BA7A;
-    --gold-pale:  #E8D9B0;
-    --cream:      rgba(255,255,255,.88);
-    --muted:      rgba(255,255,255,.42);
-    --snake-head: #C4A45A;
-    --snake-body: #D4BA7A;
-    --snake-tail: rgba(196,164,90,0.4);
-    --cell:       44px;
-  }
+:root {
+  --bg:#F5F6FA;
+  --bg-warm:#EEEEF5;
+  --bg-card:#FFFFFF;
+  --ink:#141B2D;
+  --ink-s:#2E3A52;
+  --ink-m:#7A8299;
+  --navy:#1B2847;
+  --navy-d:#0F1A33;
+  --navy-l:#2B3F6B;
+  --sky:#4A8FD4;
+  --sky-l:#6BAFE8;
+  --sky-bg:#EBF3FC;
+  --gold:#C9A84C;
+  --gold-bg:#FBF7EC;
+  --red:#C44B3F;
+  --red-bg:#FCEEED;
+  --green:#2D7A5F;
+  --green-bg:#EEF7F3;
+  --plum:#6E4B8A;
+  --plum-bg:#F3EEF8;
+  --brd:#DFE1EA;
+  --brd-l:#ECEEF4;
+  --fd:'Bodoni Moda',Georgia,serif;
+  --fb:'Nunito Sans',sans-serif;
+  --fm:'IBM Plex Mono',monospace;
+  --r:10px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--fb);background:var(--bg);color:var(--ink);line-height:1.75;font-size:16.5px;-webkit-font-smoothing:antialiased}
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* ═══ HERO ═══ */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;background:linear-gradient(160deg,#080E1F 0%,#0F1A33 25%,#1B2847 50%,#162240 75%,#080E1F 100%)}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 45% at 30% 50%,rgba(74,143,212,.1) 0%,transparent 55%),radial-gradient(ellipse 50% 40% at 70% 40%,rgba(201,168,76,.06) 0%,transparent 50%);z-index:1}
+.hero::after{content:'';position:absolute;inset:0;opacity:.4;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='<a href="http://www.w3.org/2000/svg" class="redactor-autoparser-object">http://www.w3.org/2000/svg</a>'%3E%3Cpath d='M30 28l2 2-2 2-2-2z' fill='%234A8FD4' fill-opacity='.04'/%3E%3C/svg%3E");z-index:1}
 
-  html, body {
-    width: 100%; height: 100%;
-    background: var(--navy-deep);
-    font-family: 'Raleway', sans-serif;
-    overflow: hidden;
-    color: var(--cream);
-  }
+.hero-c{position:relative;z-index:2;text-align:center;padding:2rem;max-width:800px;animation:hIn 1.4s ease-out}
+@keyframes hIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
 
-  /* ─── DOT GRID BACKGROUND ─── */
-  body::before {
-    content: '';
-    position: fixed; inset: 0;
-    background-image: radial-gradient(circle, rgba(196,164,90,.18) 1px, transparent 1px);
-    background-size: 28px 28px;
-    pointer-events: none;
-    z-index: 0;
-  }
+.hero-icon{font-size:2rem;margin-bottom:1.5rem;display:block;opacity:.7}
+.hero-badge{display:inline-block;font-family:var(--fb);font-size:.67rem;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--sky-l);border:1px solid rgba(107,175,232,.25);padding:.45rem 1.4rem;border-radius:100px;margin-bottom:2rem;background:rgba(107,175,232,.06)}
 
-  /* ─── AMBIENT GLOW ─── */
-  body::after {
-    content: '';
-    position: fixed;
-    top: -20%; left: 50%; transform: translateX(-50%);
-    width: 800px; height: 600px;
-    background: radial-gradient(ellipse, rgba(196,164,90,.06) 0%, transparent 65%);
-    pointer-events: none;
-    z-index: 0;
-  }
+.hero h1{font-family:var(--fd);font-size:clamp(2.5rem,5.5vw,4.6rem);font-weight:400;color:#F5F6FA;line-height:1.12;letter-spacing:-.01em}
+.hero h1 em{font-style:italic;color:var(--sky-l);font-weight:400}
 
-  /* ─── FLOATING GEO ELEMENTS ─── */
-  .geo {
-    position: fixed;
-    pointer-events: none;
-    z-index: 0;
-    animation: geoFloat 8s ease-in-out infinite;
-  }
-  .geo-ring {
-    width: 120px; height: 120px;
-    border: 1px solid rgba(196,164,90,.12);
-    border-radius: 50%;
-    top: 8%; right: 6%;
-    animation-duration: 11s;
-  }
-  .geo-ring-2 {
-    width: 60px; height: 60px;
-    border: 1px solid rgba(196,164,90,.18);
-    border-radius: 50%;
-    bottom: 14%; left: 4%;
-    animation-duration: 9s;
-    animation-delay: -3s;
-  }
-  .geo-diamond {
-    width: 18px; height: 18px;
-    border: 1px solid rgba(196,164,90,.3);
-    transform: rotate(45deg);
-    top: 50%; right: 4%;
-    animation-duration: 13s;
-    animation-delay: -5s;
-  }
-  .geo-line {
-    width: 1px; height: 80px;
-    background: linear-gradient(to bottom, transparent, rgba(196,164,90,.25), transparent);
-    top: 20%; left: 8%;
-    animation-duration: 7s;
-    animation-delay: -2s;
-  }
-  @keyframes geoFloat {
-    0%, 100% { transform: translateY(0); }
-    50%       { transform: translateY(-14px); }
-  }
-  .geo-diamond { animation: geoPulse 13s ease-in-out infinite; }
-  @keyframes geoPulse {
-    0%, 100% { transform: rotate(45deg) scale(1);   opacity: .3; }
-    50%       { transform: rotate(45deg) scale(1.3); opacity: .7; }
-  }
+.hero-line{width:50px;height:1px;background:var(--sky);margin:2rem auto;opacity:.3}
+.hero-sub{font-family:var(--fd);font-size:1.15rem;color:rgba(245,246,250,.45);font-weight:400;font-style:italic;line-height:1.7;max-width:540px;margin:0 auto}
 
-  /* ─── LAYOUT ─── */
-  .wrapper {
-    position: relative; z-index: 1;
-    width: 100vw; height: 100vh;
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    padding: 0 0 0 0;
-  }
+.hero-scroll{margin-top:3.5rem;display:flex;flex-direction:column;align-items:center;gap:.4rem;color:rgba(245,246,250,.25);font-family:var(--fb);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;animation:pls 2.5s ease-in-out infinite}
+.hero-scroll svg{width:16px;height:16px;stroke:rgba(245,246,250,.25)}
+@keyframes pls{0%,100%{opacity:.35;transform:translateY(0)}50%{opacity:.85;transform:translateY(5px)}}
 
-  /* ─── HEADER ─── */
-  header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 24px 48px 20px;
-    border-bottom: 1px solid rgba(196,164,90,.12);
-  }
-  .brand {
-    display: flex; flex-direction: column; gap: 2px;
-  }
-  .brand-overline {
-    font-family: 'Raleway', sans-serif;
-    font-size: 9px;
-    font-weight: 500;
-    letter-spacing: .25em;
-    text-transform: uppercase;
-    color: var(--gold);
-  }
-  .brand-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 26px;
-    font-weight: 400;
-    letter-spacing: .08em;
-    color: var(--cream);
-    line-height: 1;
-  }
-  .brand-name em {
-    font-style: italic;
-    color: var(--gold);
-  }
+/* ═══ NAV ═══ */
+.nav{position:sticky;top:0;z-index:100;background:rgba(245,246,250,.93);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid var(--brd-l)}
+.nav-in{max-width:1200px;margin:0 auto;padding:0 2rem;overflow-x:auto;scrollbar-width:none}
+.nav-in::-webkit-scrollbar{display:none}
+.nav-ul{display:flex;list-style:none;white-space:nowrap}
+.nav-ul a{display:block;padding:.9rem 1rem;font-family:var(--fb);font-size:.65rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-m);text-decoration:none;border-bottom:2px solid transparent;transition:all .3s ease}
+.nav-ul a:hover{color:var(--navy);border-bottom-color:var(--navy)}
 
-  .header-right {
-    text-align: right;
-    display: flex; flex-direction: column; gap: 4px;
-  }
-  .header-tag {
-    font-size: 9px;
-    letter-spacing: .2em;
-    text-transform: uppercase;
-    color: var(--gold);
-    font-weight: 500;
-  }
-  .header-score-label {
-    font-size: 11px;
-    letter-spacing: .12em;
-    color: var(--muted);
-    text-transform: uppercase;
-  }
-  .header-score-val {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 32px;
-    font-weight: 300;
-    color: var(--gold-light);
-    line-height: 1;
-    transition: all .2s;
-  }
+/* ═══ MAIN ═══ */
+.main{max-width:880px;margin:0 auto;padding:0 2rem 6rem}
 
-  /* ─── MAIN ARENA ─── */
-  .arena {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    flex: 1;
-    overflow: hidden;
-  }
+/* ═══ SECTION ═══ */
+.sc{padding-top:4.5rem}
+.sc-tag{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--fb);font-size:.6rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;margin-bottom:.7rem}
+.sc-tag.blue{color:var(--sky)} .sc-tag.gold{color:var(--gold)} .sc-tag.red{color:var(--red)}
+.sc-tag .n{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;font-size:.56rem;font-weight:700;letter-spacing:0;color:#fff}
+.sc-tag.blue .n{background:var(--sky)} .sc-tag.gold .n{background:var(--gold)} .sc-tag.red .n{background:var(--red)}
 
-  #canvas-wrap {
-    position: relative;
-  }
+.sc h2{font-family:var(--fd);font-size:clamp(1.7rem,3.2vw,2.4rem);font-weight:500;color:var(--ink);line-height:1.25;margin-bottom:.35rem}
+.sc-sub{font-family:var(--fd);font-size:1.02rem;color:var(--ink-m);font-weight:400;font-style:italic;margin-bottom:2rem;line-height:1.6}
+.sc-intro{font-size:.97rem;color:var(--ink-s);line-height:1.85;margin-bottom:2rem;max-width:740px}
 
-  canvas {
-    display: block;
-    border: 1px solid rgba(196,164,90,.2);
-    box-shadow:
-      0 0 60px rgba(196,164,90,.06),
-      inset 0 0 80px rgba(5,13,26,.6);
-    background: rgba(5,13,26,.55);
-    backdrop-filter: blur(2px);
-  }
+/* ═══ CARDS ═══ */
+.gr{margin-bottom:2.4rem}
+.gr-t{font-family:var(--fb);font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-s);margin-bottom:.85rem;padding-bottom:.45rem;border-bottom:1px solid var(--brd)}
 
-  /* ─── WORD FLOATING LABELS (rendered on canvas overlay) ─── */
-  .word-label {
-    position: absolute;
-    font-family: 'Raleway', sans-serif;
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: .15em;
-    text-transform: uppercase;
-    color: var(--gold-light);
-    pointer-events: none;
-    transition: opacity .4s, transform .3s;
-    white-space: nowrap;
-    text-shadow: 0 0 12px rgba(196,164,90,.4);
-  }
-  .word-label.eaten {
-    animation: wordEaten .6s forwards;
-  }
-  @keyframes wordEaten {
-    0%   { opacity: 1; transform: scale(1.4);    color: #fff; }
-    100% { opacity: 0; transform: scale(2) translateY(-20px); }
-  }
+.cd{background:var(--bg-card);border:1px solid var(--brd-l);border-radius:var(--r);padding:1.15rem 1.4rem;margin-bottom:.5rem;transition:all .25s ease}
+.cd:hover{border-color:var(--brd);box-shadow:0 4px 16px rgba(20,27,45,.05);transform:translateY(-1px)}
+.cd .en{font-family:var(--fd);font-size:1.12rem;font-weight:500;color:var(--ink);line-height:1.5;margin-bottom:.15rem}
+.cd .pt{font-family:var(--fb);font-size:.84rem;color:var(--ink-m);line-height:1.5}
 
-  /* ─── OVERLAY SCREENS ─── */
-  .overlay {
-    position: absolute; inset: 0;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    gap: 20px;
-    background: rgba(5,13,26,.85);
-    backdrop-filter: blur(6px);
-    z-index: 10;
-    transition: opacity .5s;
-  }
-  .overlay.hidden { opacity: 0; pointer-events: none; }
+.nt{margin-top:.5rem;font-family:var(--fb);font-size:.74rem;padding:.45rem .75rem;border-radius:6px;line-height:1.55;border-left:3px solid}
+.nt.blue{color:#2A5A8A;background:var(--sky-bg);border-color:var(--sky)}
+.nt.gold{color:#8B6914;background:var(--gold-bg);border-color:var(--gold)}
+.nt.red{color:var(--red);background:var(--red-bg);border-color:var(--red)}
+.nt.green{color:var(--green);background:var(--green-bg);border-color:var(--green)}
+.nt.plum{color:var(--plum);background:var(--plum-bg);border-color:var(--plum)}
 
-  .overlay-overline {
-    font-size: 9px;
-    letter-spacing: .3em;
-    text-transform: uppercase;
-    color: var(--gold);
-    font-weight: 500;
-  }
-  .overlay-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(36px, 5vw, 60px);
-    font-weight: 300;
-    color: var(--cream);
-    text-align: center;
-    line-height: 1.1;
-  }
-  .overlay-title em {
-    font-style: italic;
-    color: var(--gold);
-  }
-  .overlay-divider {
-    width: 60px; height: 1px;
-    background: var(--gold);
-    opacity: .5;
-  }
-  .overlay-sub {
-    font-size: 12px;
-    letter-spacing: .1em;
-    color: var(--muted);
-    text-align: center;
-    line-height: 1.8;
-  }
-  .overlay-score-display {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 64px;
-    font-weight: 300;
-    color: var(--gold-light);
-    line-height: 1;
-  }
-  .overlay-score-label {
-    font-size: 10px;
-    letter-spacing: .2em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-top: -12px;
-  }
+/* ═══ DIALOGUE ═══ */
+.dlg{background:var(--bg-card);border:1px solid var(--brd);border-radius:12px;padding:1.7rem 1.9rem;margin:2rem 0 2.5rem;position:relative;overflow:hidden}
+.dlg::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--navy),var(--sky),var(--navy))}
+.dlg-h{font-family:var(--fb);font-size:.63rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--sky);margin-bottom:.2rem}
+.dlg-ctx{font-family:var(--fb);font-size:.8rem;color:var(--ink-m);font-style:italic;margin-bottom:1.3rem}
 
-  .btn-start {
-    margin-top: 8px;
-    padding: 14px 48px;
-    background: transparent;
-    border: 1px solid var(--gold);
-    color: var(--gold);
-    font-family: 'Raleway', sans-serif;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: .25em;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: all .25s;
-    position: relative;
-    overflow: hidden;
-  }
-  .btn-start::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: var(--gold);
-    transform: translateX(-101%);
-    transition: transform .25s;
-    z-index: -1;
-  }
-  .btn-start:hover { color: var(--navy-deep); }
-  .btn-start:hover::before { transform: translateX(0); }
+.ln{display:flex;gap:.85rem;margin-bottom:.85rem;align-items:flex-start}
+.av{flex-shrink:0;width:33px;height:33px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fb);font-size:.53rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-top:2px}
+.av.you{background:var(--sky-bg);color:var(--sky);border:1.5px solid rgba(74,143,212,.2)}
+.av.them{background:var(--gold-bg);color:#8B6914;border:1.5px solid rgba(201,168,76,.25)}
+.av.off{background:#F0EDF5;color:var(--plum);border:1.5px solid rgba(110,75,138,.2)}
 
-  /* ─── GLOSSARY TICKER ─── */
-  .word-earned {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.8);
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 22px;
-    font-style: italic;
-    color: var(--gold-light);
-    text-align: center;
-    pointer-events: none;
-    z-index: 20;
-    opacity: 0;
-    text-shadow: 0 0 30px rgba(196,164,90,.6);
-  }
-  .word-earned.show {
-    animation: wordPop .9s forwards;
-  }
-  @keyframes wordPop {
-    0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
-    20%  { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
-    70%  { opacity: 1; transform: translate(-50%, -50%) scale(1);   }
-    100% { opacity: 0; transform: translate(-50%, -60%) scale(0.95); }
-  }
+.bb{flex:1}
+.bb .en{font-family:var(--fd);font-size:.98rem;color:var(--ink);line-height:1.5;font-weight:500}
+.bb .pt{font-family:var(--fb);font-size:.78rem;color:var(--ink-m);line-height:1.5;margin-top:.1rem}
 
-  /* ─── GLOSSARY SIDEBAR ─── */
-  .glossary {
-    position: fixed;
-    right: 32px;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    max-height: 60vh;
-    overflow: hidden;
-    z-index: 5;
-    width: 220px;
-  }
-  .glossary-title {
-    font-size: 8px;
-    letter-spacing: .25em;
-    text-transform: uppercase;
-    color: var(--gold);
-    font-weight: 500;
-    margin-bottom: 4px;
-    opacity: .7;
-  }
-  .glossary-entry {
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
-    opacity: 0;
-    transform: translateX(20px);
-    animation: slideIn .4s forwards;
-    border-left: 1px solid rgba(196,164,90,.25);
-    padding-left: 10px;
-  }
-  @keyframes slideIn {
-    to { opacity: 1; transform: translateX(0); }
-  }
-  .glossary-word {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 14px;
-    color: var(--gold-light);
-    font-style: italic;
-  }
-  .glossary-pt {
-    font-size: 10px;
-    color: var(--muted);
-    letter-spacing: .05em;
-  }
+/* ═══ VOCAB ═══ */
+.vg{display:grid;grid-template-columns:repeat(auto-fill,minmax(235px,1fr));gap:.4rem;margin:1.5rem 0 2rem}
+.vi{background:var(--bg-card);border:1px solid var(--brd-l);border-radius:8px;padding:.75rem 1rem;transition:all .2s ease}
+.vi:hover{border-color:var(--brd);box-shadow:0 2px 10px rgba(20,27,45,.04)}
+.vi .en{font-family:var(--fd);font-size:.93rem;font-weight:500;color:var(--ink)}
+.vi .pt{font-family:var(--fb);font-size:.76rem;color:var(--ink-m)}
 
-  /* ─── FOOTER ─── */
-  footer {
-    border-top: 1px solid rgba(196,164,90,.1);
-    padding: 14px 48px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: linear-gradient(to right, rgba(196,164,90,.04), transparent);
-  }
-  .footer-controls {
-    display: flex; gap: 24px;
-  }
-  .key-hint {
-    display: flex; align-items: center; gap: 6px;
-    font-size: 10px;
-    letter-spacing: .12em;
-    color: var(--muted);
-    text-transform: uppercase;
-  }
-  .key {
-    display: inline-flex; align-items: center; justify-content: center;
-    width: 22px; height: 22px;
-    border: 1px solid rgba(196,164,90,.3);
-    color: var(--gold);
-    font-size: 9px;
-    font-weight: 600;
-    border-radius: 3px;
-  }
-  .footer-level {
-    font-size: 10px;
-    letter-spacing: .15em;
-    color: var(--muted);
-    text-transform: uppercase;
-  }
-  .footer-level span {
-    color: var(--gold);
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 16px;
-    font-weight: 300;
-  }
+/* ═══ BLOCKS ═══ */
+.bk{border-radius:12px;padding:1.6rem 1.7rem;margin:2rem 0;position:relative;border:1px solid}
+.bk::before{font-size:1.15rem;position:absolute;top:-.65rem;left:1.3rem;padding:0 .4rem}
+.bk h4{font-family:var(--fb);font-size:.66rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.55rem}
+.bk p{font-size:.92rem;color:var(--ink-s);line-height:1.75}
 
-  /* score pulse */
-  @keyframes scorePulse {
-    0%,100% { transform: scale(1); }
-    50%      { transform: scale(1.15); color: #fff; }
-  }
-  .pulse { animation: scorePulse .3s ease; }
+.bk.tip{background:linear-gradient(135deg,var(--sky-bg),var(--bg));border-color:rgba(74,143,212,.15)}
+.bk.tip::before{content:'💡';background:var(--bg)} .bk.tip h4{color:var(--sky)}
+
+.bk.cultural{background:linear-gradient(135deg,var(--plum-bg),var(--bg));border-color:rgba(110,75,138,.12)}
+.bk.cultural::before{content:'🌍';background:var(--bg)} .bk.cultural h4{color:var(--plum)}
+
+.bk.alert{background:linear-gradient(135deg,var(--red-bg),var(--bg));border-color:rgba(196,75,63,.15)}
+.bk.alert::before{content:'🚨';background:var(--bg)} .bk.alert h4{color:var(--red)}
+
+.bk.warn{background:linear-gradient(135deg,var(--gold-bg),var(--bg));border-color:rgba(201,168,76,.2)}
+.bk.warn::before{content:'⚠️';background:var(--bg)} .bk.warn h4{color:#8B6914}
+
+/* ═══ SIGNS ═══ */
+.sign-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.5rem;margin:1.5rem 0 2rem}
+.sign-item{background:var(--navy-d);border-radius:8px;padding:.9rem 1.1rem;color:#F5F6FA;display:flex;align-items:center;gap:.75rem}
+.sign-item .icon{font-size:1.2rem;flex-shrink:0;opacity:.8}
+.sign-item .en{font-family:var(--fm);font-size:.82rem;font-weight:400;color:#F5F6FA;letter-spacing:.03em}
+.sign-item .pt{font-family:var(--fb);font-size:.72rem;color:rgba(245,246,250,.5)}
+
+/* ═══ SEP ═══ */
+.sep{display:flex;align-items:center;justify-content:center;gap:1rem;padding:3rem 0 0}
+.sep::before,.sep::after{content:'';flex:1;max-width:100px;height:1px;background:var(--brd)}
+.sep .d{width:5px;height:5px;background:var(--sky);transform:rotate(45deg);opacity:.35}
+
+/* ═══ TRANSIT BANNER ═══ */
+.transit-banner{background:linear-gradient(135deg,var(--navy-d) 0%,var(--navy) 50%,var(--navy-d) 100%);padding:3rem 2rem;text-align:center;margin-top:4rem;position:relative;overflow:hidden}
+.transit-banner::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='30' height='30' xmlns='<a href="http://www.w3.org/2000/svg" class="redactor-autoparser-object">http://www.w3.org/2000/svg</a>'%3E%3Cpath d='M15 14h1v2h-1z' fill='%234A8FD4' fill-opacity='.06'/%3E%3C/svg%3E")}
+.transit-banner .tc{position:relative;z-index:1}
+.transit-banner h3{font-family:var(--fd);font-size:1.7rem;font-weight:400;color:rgba(245,246,250,.85);margin-bottom:.4rem}
+.transit-banner p{font-family:var(--fb);font-size:.85rem;color:rgba(245,246,250,.4);max-width:480px;margin:0 auto;line-height:1.6}
+
+/* ═══ FOOTER ═══ */
+.footer{text-align:center;padding:3.5rem 2rem;border-top:1px solid var(--brd-l);margin-top:3rem}
+.footer-b{font-family:var(--fd);font-size:1.25rem;color:var(--ink);margin-bottom:.35rem}
+.footer-t{font-family:var(--fb);font-size:.76rem;color:var(--ink-m)}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:768px){
+  .main{padding:0 1.2rem 4rem}
+  .dlg{padding:1.3rem}
+  .sc{padding-top:3.5rem}
+  .vg,.sign-grid{grid-template-columns:1fr}
+  .nav-ul a{padding:.8rem .75rem;font-size:.6rem}
+}
+
+/* ═══ ANIM ═══ */
+.fi{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease}
+.fi.v{opacity:1;transform:translateY(0)}
 </style>
-</head>
-<body>
-
-<!-- Floating geometric decorations -->
-<div class="geo geo-ring"></div>
-<div class="geo geo-ring-2"></div>
-<div class="geo geo-diamond"></div>
-<div class="geo geo-line"></div>
-
-<!-- Word earned toast -->
-<div class="word-earned" id="wordToast"></div>
-
-<!-- Glossary sidebar -->
-<div class="glossary" id="glossary">
-  <div class="glossary-title">Vocabulário adquirido</div>
-</div>
-
-<div class="wrapper">
-  <!-- HEADER -->
-  <header>
-    <div class="brand">
-      <div class="brand-overline">Instituto MD Talk</div>
-      <div class="brand-name">MD <em>Talk</em></div>
-    </div>
-    <div class="header-right">
-      <div class="header-tag">Sala de Espera</div>
-      <div class="header-score-label">Score</div>
-      <div class="header-score-val" id="scoreDisplay">0</div>
-    </div>
-  </header>
-
-  <!-- ARENA -->
-  <div class="arena" id="arena">
-    <div id="canvas-wrap">
-      <canvas id="game"></canvas>
-    </div>
-
-    <!-- START OVERLAY -->
-    <div class="overlay" id="overlayStart">
-      <div class="overlay-overline">Sala de Espera · MD Talk</div>
-      <div class="overlay-title">Enquanto você <em>aguarda</em>,<br>pratique Medical English</div>
-      <div class="overlay-divider"></div>
-      <div class="overlay-sub">
-        Guie a cobra pelo grid e colete<br>
-        termos clínicos em inglês<br>
-        <br>
-        <span style="color:var(--gold-pale); font-size:10px; letter-spacing:.15em">USE AS SETAS OU WASD PARA MOVER</span>
-      </div>
-      <button class="btn-start" id="btnStart">Iniciar</button>
-    </div>
-
-    <!-- GAME OVER OVERLAY -->
-    <div class="overlay hidden" id="overlayOver">
-      <div class="overlay-overline">Session Ended</div>
-      <div class="overlay-title"><em>Game</em> Over</div>
-      <div class="overlay-divider"></div>
-      <div class="overlay-score-display" id="finalScore">0</div>
-      <div class="overlay-score-label">termos coletados</div>
-      <div class="overlay-sub" id="lastWord"></div>
-      <button class="btn-start" id="btnRestart">Nova Sessão</button>
+<!-- ═══════ HERO ═══════ -->
+<section class="hero">
+  <div class="hero-c">
+    <span class="hero-icon">✈</span>
+    <div class="hero-badge">English for Travelers — Módulo Completo</div>
+    <h1>Airport, Flight<br>& <em>Immigration</em></h1>
+    <div class="hero-line"></div>
+    <p class="hero-sub">Do check-in online ao oficial de imigração.<br>Cada frase, cada placa, cada situação — tudo em inglês, tudo traduzido.</p>
+    <div class="hero-scroll">
+      Explore o módulo
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12l7 7 7-7"></path></svg>
     </div>
   </div>
+</section>
+<!-- ═══════ NAV ═══════ -->
+<nav class="nav">
+  <div class="nav-in">
+    <ul class="nav-ul">
+      <li><a href="#s1">Preparação</a></li>
+      <li><a href="#s2">Chegando</a></li>
+      <li><a href="#s3">Check-in</a></li>
+      <li><a href="#s4">Bagagem</a></li>
+      <li><a href="#s5">Segurança</a></li>
+      <li><a href="#s6">Portão</a></li>
+      <li><a href="#s7">Embarque</a></li>
+      <li><a href="#s8">No Avião</a></li>
+      <li><a href="#s9">Problemas no Voo</a></li>
+      <li><a href="#s10">Conexões</a></li>
+      <li><a href="#s11">Imigração</a></li>
+      <li><a href="#s12">Alfândega</a></li>
+      <li><a href="#s13">Bagagem & Esteira</a></li>
+      <li><a href="#s14">Problemas</a></li>
+      <li><a href="#s15">Placas & Avisos</a></li>
+    </ul>
+  </div>
+</nav>
+<!-- ═══════ MAIN ═══════ -->
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p><main class="main"><p></p>
+<!-- ███ 1 ███ -->
+<section class="sc" id="s1">
+  <div class="sc-tag blue"><span class="n">1</span> Before You Go</div>
+  <h2>Preparação e Check-in Online</h2>
+  <p class="sc-sub">Tudo começa antes mesmo de sair de casa — e já em inglês.</p>
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-controls">
-      <div class="key-hint"><div class="key">↑</div><div class="key">↓</div><div class="key">←</div><div class="key">→</div> mover</div>
-      <div class="key-hint"><div class="key" style="width:32px">P</div> pausar</div>
-    </div>
-    <div class="footer-level">Nível <span id="levelDisplay">I</span></div>
-  </footer>
+  <p class="sc-intro">Hoje, a maior parte do processo aeroportuário começa na tela do celular. Fazer o check-in online, entender os e-mails da companhia aérea e preencher formulários de imigração são etapas que você faz em inglês horas antes de pisar no aeroporto. Vamos preparar você para tudo.</p>
+
+  <div class="gr">
+    <div class="gr-t">O que você vai ver no check-in online</div>
+    <div class="cd"><div class="en">"Online check-in is now open for your flight."</div><div class="pt">O check-in online já está aberto para o seu voo.</div></div>
+    <div class="cd"><div class="en">"Select your seat." / "Window, middle, or aisle?"</div><div class="pt">Selecione seu assento. / Janela, meio ou corredor?</div><div class="nt blue"><strong>Window seat</strong> = janela. <strong>Aisle seat</strong> (pronuncia-se "ail") = corredor. <strong>Middle seat</strong> = meio. Nunca diga "corridor seat" — ninguém vai entender.</div></div>
+    <div class="cd"><div class="en">"Add checked baggage" / "Carry-on only"</div><div class="pt">Adicionar bagagem despachada / Apenas bagagem de mão</div></div>
+    <div class="cd"><div class="en">"Upload your passport details" / "Enter your travel document information"</div><div class="pt">Envie os dados do seu passaporte / Insira as informações do documento de viagem</div></div>
+    <div class="cd"><div class="en">"Your boarding pass is ready. Save it to your wallet."</div><div class="pt">Seu cartão de embarque está pronto. Salve na carteira digital.</div></div>
+  </div>
+
+  <div class="gr">
+    <div class="gr-t">Vocabulário essencial de documentos</div>
+  </div>
+  <div class="vg">
+    <div class="vi"><div class="en">boarding pass</div><div class="pt">cartão de embarque</div></div>
+    <div class="vi"><div class="en">passport</div><div class="pt">passaporte</div></div>
+    <div class="vi"><div class="en">visa / travel authorization (ESTA, eTA)</div><div class="pt">visto / autorização de viagem</div></div>
+    <div class="vi"><div class="en">itinerary / e-ticket</div><div class="pt">itinerário / passagem eletrônica</div></div>
+    <div class="vi"><div class="en">travel insurance policy</div><div class="pt">apólice de seguro viagem</div></div>
+    <div class="vi"><div class="en">return ticket / round-trip ticket</div><div class="pt">passagem de volta / ida e volta</div></div>
+    <div class="vi"><div class="en">one-way ticket</div><div class="pt">passagem só de ida</div></div>
+    <div class="vi"><div class="en">confirmation number / booking reference</div><div class="pt">número de confirmação / localizador</div></div>
+  </div>
+
+  <div class="bk tip">
+    <h4>Dica de Ouro</h4>
+    <p>Sempre faça o check-in online assim que abrir (geralmente 24–48h antes). Isso garante que você escolha um bom assento e evite filas. Se precisar de ajuda especial, marque na hora do check-in: <strong>"special assistance"</strong> (assistência especial), <strong>"wheelchair request"</strong> (pedido de cadeira de rodas) ou <strong>"traveling with infant"</strong> (viajando com bebê).</p>
+  </div>
+</section>
+<div class="sep"><span class="d"></span></div>
+<!-- ███ 2 ███ -->
+<section class="sc" id="s2">
+  <div class="sc-tag blue"><span class="n">2</span> At the Airport</div>
+  <h2>Chegando ao Aeroporto</h2>
+  <p class="sc-sub">Encontrando o terminal certo, se orientando e pedindo informações.</p>
+
+  <div class="gr">
+    <div class="gr-t">Perguntas de orientação</div>
+    <div class="cd"><div class="en">"Which terminal is for international departures?"</div><div class="pt">Qual terminal é para voos internacionais?</div></div>
+    <div class="cd"><div class="en">"Where is the check-in counter for [airline name]?"</div><div class="pt">Onde fica o balcão de check-in da [companhia aérea]?</div></div>
+    <div class="cd"><div class="en">"Is there a shuttle between terminals?"</div><div class="pt">Tem um transporte entre terminais?</div></div>
+    <div class="cd"><div class="en">"Where can I find a luggage cart?"</div><div class="pt">Onde posso encontrar um carrinho de bagagem?</div><div class="nt blue"><strong>Luggage cart</strong> (EUA) ou <strong>trolley</strong> (Reino Unido). Em muitos aeroportos americanos, os carrinhos são pagos (~$5).</div></div>
+    <div class="cd"><div class="en">"Is there a currency exchange nearby?" / "Where's the nearest ATM?"</div><div class="pt">Tem casa de câmbio por perto? / Onde fica o caixa eletrônico mais próximo?</div></div>
+    <div class="cd"><div class="en">"Where are the restrooms?"</div><div class="pt">Onde ficam os banheiros?</div><div class="nt green"><strong>Restroom</strong> (EUA) ou <strong>toilet / loo</strong> (Reino Unido). Nunca diga "bathroom" em público — é entendido, mas soa estranho em contexto de aeroporto.</div></div>
+  </div>
+</section>
+<div class="sep"><span class="d"></span></div>
+<!-- ███ 3 ███ -->
+<section class="sc" id="s3">
+  <div class="sc-tag blue"><span class="n">3</span> Check-in Counter</div>
+  <h2>No Balcão de Check-in</h2>
+  <p class="sc-sub">Tudo o que o atendente vai perguntar — e como responder com naturalidade.</p>
+
+  <div class="gr">
+    <div class="gr-t">O que o atendente pergunta</div>
+    <div class="cd"><div class="en">"May I see your passport and booking confirmation?"</div><div class="pt">Posso ver seu passaporte e confirmação da reserva?</div></div>
+    <div class="cd"><div class="en">"How many bags are you checking in?"</div><div class="pt">Quantas malas vai despachar?</div></div>
+    <div class="cd"><div class="en">"Did you pack your bags yourself?"</div><div class="pt">Você mesmo fez suas malas?</div><div class="nt gold">Essa pergunta é de segurança e é obrigatória. Responda sempre <strong>"Yes, I did."</strong></div></div>
+    <div class="cd"><div class="en">"Are you carrying any liquids, sharp objects, or lithium batteries in your checked luggage?"</div><div class="pt">Está levando líquidos, objetos cortantes ou baterias de lítio na bagagem despachada?</div></div>
+    <div class="cd"><div class="en">"Would you like a window or an aisle seat?"</div><div class="pt">Gostaria de janela ou corredor?</div></div>
+  </div>
+
+  <div class="gr">
+    <div class="gr-t">Seus pedidos no check-in</div>
+    <div class="cd"><div class="en">"I'd like a window seat, please. Towards the front if possible."</div><div class="pt">Gostaria de janela, por favor. Na frente, se possível.</div></div>
+    <div class="cd"><div class="en">"Can I get an emergency exit row seat? I need the extra legroom."</div><div class="pt">Posso pegar assento na fileira da saída de emergência? Preciso do espaço extra para as pernas.</div><div class="nt blue"><strong>Legroom</strong> = espaço para as pernas. <strong>Exit row</strong> = fileira da saída de emergência (mais espaço, mas com responsabilidades).</div></div>
+    <div class="cd"><div class="en">"We're traveling together. Can you seat us next to each other?"</div><div class="pt">Estamos viajando juntos. Pode nos colocar lado a lado?</div></div>
+    <div class="cd"><div class="en">"I have a connecting flight to [destination]. Will my bags be checked through?"</div><div class="pt">Tenho um voo de conexão para [destino]. Minhas malas vão direto?</div><div class="nt blue"><strong>"Checked through"</strong> = despachada direto até o destino final, sem precisar retirar na conexão. Pergunta essencial!</div></div>
+    <div class="cd"><div class="en">"I requested a special meal — vegetarian / kosher / halal. Can you confirm?"</div><div class="pt">Pedi uma refeição especial — vegetariana / kosher / halal. Pode confirmar?</div></div>
+  </div>
+
+  <div class="dlg">
+    <div class="dlg-h">Diálogo Prático</div>
+    <div class="dlg-ctx">Balcão de check-in — voo internacional com conexão</div>
+    <div class="ln"><div class="av them">AG</div><div class="bb"><div class="en">Good morning. Passport and booking confirmation, please.</div><div class="pt">Bom dia. Passaporte e confirmação de reserva, por favor.</div></div></div>
+    <div class="ln"><div class="av you">You</div><div class="bb"><div class="en">Here you go. I'm flying to London with a layover in Miami.</div><div class="pt">Aqui está. Estou voando para Londres com escala em Miami.</div></div></div>
+    <div class="ln"><div class="av them">AG</div><div class="bb"><div class="en">Perfect. How many bags are you checking?</div><div class="pt">Perfeito. Quantas malas vai despachar?</div></div></div>
+    <div class="ln"><div class="av you">You</div><div class="bb"><div class="en">Two checked bags and one carry-on. Will the bags go straight through to London?</div><div class="pt">Duas despachadas e uma de mão. As malas vão direto para Londres?</div></div></div>
+    <div class="ln"><div class="av them">AG</div><div class="bb"><div class="en">Yes, they'll be tagged through to Heathrow. You won't need to pick them up in Miami. Do you have a seat preference?</div><div class="pt">Sim, serão etiquetadas até Heathrow. Não precisará retirá-las em Miami. Tem preferência de assento?</div></div></div>
+    <div class="ln"><div class="av you">You</div><div class="bb"><div class="en">An aisle seat, please. And could you make sure my bags don't exceed the weight limit?</div><div class="pt">Corredor, por favor. E pode verificar se minhas malas não excedem o limite de peso?</div></div></div>
+    <div class="ln"><div class="av them">AG</div><div class="bb"><div class="en">Let's weigh them. The first one is 21 kilos — perfect. The second is 24 — just under the limit. You're all set. Here's your boarding pass. Gate B12, boarding at 2:15 PM.</div><div class="pt">Vamos pesar. A primeira está com 21 quilos — perfeito. A segunda com 24 — dentro do limite. Tudo certo. Aqui está seu cartão de embarque. Portão B12, embarque às 14h15.</div></div></div>
+  </div>
+</section>
+<div class="sep"><span class="d"></span></div>
+<!-- ███ 4 ███ -->
+<section class="sc" id="s4">
+  <div class="sc-tag blue"><span class="n">4</span> Luggage</div>
+  <h2>Bagagem — Regras, Excesso e Problemas</h2>
+  <p class="sc-sub">Tudo sobre peso, tamanho e o que fazer quando algo dá errado com suas malas.</p>
+
+  <div class="gr">
+    <div class="gr-t">Regras e limites</div>
+    <div class="cd"><div class="en">"What's the weight limit for checked bags?"</div><div class="pt">Qual é o limite de peso para bagagem despachada?</div></div>
+    <div class="cd"><div class="en">"What are the carry-on size restrictions?"</div><div class="pt">Quais são as restrições de tamanho para bagagem de mão?</div></div>
+    <div class="cd"><div class="en">"Am I allowed a personal item in addition to my carry-on?"</div><div class="pt">Posso levar um item pessoal além da bagagem de mão?</div><div class="nt blue"><strong>Personal item</strong> = item pessoal (bolsa, mochila pequena, laptop bag). A maioria das companhias permite um <strong>carry-on</strong> + um <strong>personal item</strong>.</div></div>
+  </div>
+
+  <div class="gr">
+    <div class="gr-t">Excesso de bagagem</div>
+    <div class="cd"><div class="en">"My bag is overweight. How much is the excess baggage fee?"</div><div class="pt">Minha mala está acima do peso. Quanto é a taxa de excesso?</div></div>
+    <div class="cd"><div class="en">"Can I move some items to my carry-on to reduce the weight?"</div><div class="pt">Posso transferir alguns itens para a bagagem de mão para reduzir o peso?</div></div>
+    <div class="cd"><div class="en">"I'd like to add an extra checked bag. How much will that cost?"</div><div class="pt">Gostaria de adicionar uma mala extra despachada. Quanto vai custar?</div></div>
+    <div class="cd"><div class="en">"Is it cheaper to pay for the extra bag online or here at the counter?"</div><div class="pt">É mais barato pagar pela mala extra online ou aqui no balcão?</div></div>
+  </div>
+
+  <div class="gr">
+    <div class="gr-t">Itens especiais e frágeis</div>
+    <div class="cd"><div class="en">"I'm carrying fragile items. Can I get a 'fragile' sticker?"</div><div class="pt">Estou levando itens frágeis. Posso pegar uma etiqueta de 'frágil'?</div></div>
+    <div class="cd"><div class="en">"I have a stroller / wheelchair / musical instrument. Where do I check it in?"</div><div class="pt">Tenho um carrinho de bebê / cadeira de rodas / instrumento musical. Onde despacho?</div></div>
+    <div class="cd"><div class="en">"Can I gate-check my stroller?"</div><div class="pt">Posso despachar o carrinho de bebê no portão?</div><div class="nt green"><strong>"Gate-check"</strong> = despachar no portão de embarque (o item é colocado no porão na hora do embarque e devolvido na porta do avião ao desembarcar). Muito usado para carrinhos de bebê.</div></div>
+  </div>
+
+  <div class="vg">
+    <div class="vi"><div class="en">checked bag / hold luggage</div><div class="pt">bagagem despachada</div></div>
+    <div class="vi"><div class="en">carry-on / hand luggage</div><div class="pt">bagagem de mão</div></div>
+    <div class="vi"><div class="en">personal item</div><div class="pt">item pessoal</div></div>
+    <div class="vi"><div class="en">overhead bin / compartment</div><div class="pt">compartimento acima do assento</div></div>
+    <div class="vi"><div class="en">baggage tag / luggage tag</div><div class="pt">etiqueta de bagagem</div></div>
+    <div class="vi"><div class="en">excess / overweight fee</div><div class="pt">taxa de excesso</div></div>
+    <div class="vi"><div class="en">baggage allowance</div><div class="pt">franquia de bagagem</div></div>
+    <div class="vi"><div class="en">baggage claim receipt</div><div class="pt">comprovante de despacho</div></div>
+  </div>
+</section>
+<div class="sep"><span class="d"></span></div>
+<!-- ███ 5 ███ -->
+<section class="sc" id="s5">
+  <div class="sc-tag gold"><span class="n">5</span> Security</div>
+  <h2>Controle de Segurança</h2>
+  <p class="sc-sub">O momento mais tenso para muitos viajantes — mas com as frases certas, passa rápido.</p>
+
+  <p class="sc-intro">O controle de segurança é padronizado mundialmente, mas cada país tem suas nuances. Nos EUA (TSA), o processo é especialmente rigoroso. Saber o que esperar e como se comunicar evita atrasos e constrangimentos.</p>
+
+  <div class="gr">
+    <div class="gr-t">O que os agentes vão dizer</div>
+    <div class="cd"><div class="en">"Please remove your shoes, belt, and any metal objects."</div><div class="pt">Por favor remova sapatos, cinto e qualquer objeto de metal.</div></div>
+    <div class="cd"><div class="en">"Laptops and large electronics need to come out of your bag."</div><div class="pt">Laptops e eletrônicos grandes precisam sair da bolsa.</div></div>
+    <div class="cd"><div class="en">"Place all liquids in a clear, resealable bag."</div><div class="pt">Coloque todos os líquidos em uma bolsa transparente com lacre.</div><div class="nt gold">Regra universal: líquidos em frascos de no máximo <strong>100ml (3.4 oz)</strong>, dentro de um saco plástico transparente de até <strong>1 litro</strong>.</div></div>
+    <div class="cd"><div class="en">"Step through the scanner, please." / "Arms up. Stand still."</div><div class="pt">Passe pelo scanner, por favor. / Braços para cima. Fique parado.</div></div>
+    <div class="cd"><div class="en">"We need to do a pat-down." / "I'm going to check your bag manually."</div><div class="pt">Precisamos fazer uma revista manual. / Vou verificar sua bolsa manualmente.</div></div>
+    <div class="cd"><div class="en">"Is this your bag? There's something we need to take a closer look at."</div><div class="pt">Essa mala é sua? Tem algo que precisamos examinar melhor.</div></div>
+  </div>
+
+  <div class="gr">
+    <div class="gr-t">O que você pode precisar dizer</div>
+    <div class="cd"><div class="en">"I have a medical device / pacemaker. I can't go through the scanner."</div><div class="pt">Tenho um dispositivo médico / marca-passo. Não posso passar pelo scanner.</div></div>
+    <div class="cd"><div class="en">"I have a metal implant in my knee. It might set off the alarm."</div><div class="pt">Tenho um implante de metal no joelho. Pode disparar o alarme.</div></div>
+    <div class="cd"><div class="en">"I'm carrying medication that needs to stay refrigerated. Here's the doctor's note."</div><div class="pt">Estou carregando medicamento que precisa ficar refrigerado. Aqui está o atestado médico.</div></div>
+    <div class="cd"><div class="en">"I accidentally left a water bottle in my bag. Can I go back and throw it away?"</div><div class="pt">Esqueci sem querer uma garrafa de água na bolsa. Posso voltar e jogar fora?</div></div>
+  </div>
+
+  <div class="bk warn">
+    <h4>Atenção</h4>
+    <p>Na segurança, <strong>nunca faça piadas</strong> sobre bombas, armas ou terrorismo — mesmo que pareça inocente. Isso é tratado com seriedade extrema e pode resultar em detenção. Se um agente fizer uma pergunta, responda de forma direta e calma. Nos EUA, os agentes TSA podem parecer bruscos — é o estilo, não é pessoal.</p>
+  </div>
+</section>
+<div class="sep"><span class="d"></span></div>
+<!-- ███ 6 ███ -->
+<section class="sc" id="s6">
+  <div class="sc-tag blue"><span class="n">6</span> The Gate</div>
+  <h2>Na Área de Embarque e no Portão</h2>
+  <p class="sc-sub">Esperando o voo — o que fazer, ouvir e perguntar.</p>
+
+  <div class="gr">
+    <div class="gr-t">Anúncios que você vai ouvir</div>
+    <div class="cd"><div class="en">"Flight [number] to [destination] is now boarding at Gate B12."</div><div class="pt">O voo [número] para [destino] está embarcando no portão B12.</div></div>
+    <div class="cd"><div class="en">"We are now boarding Group 2. Please have your boarding pass and ID ready."</div><div class="pt">Estamos embarcando o Grupo 2. Tenha seu cartão de embarque e documento prontos.</div></div>
+    <div class="cd"><div class="en">"This is the final boarding call for Flight [number]. Please proceed to Gate [X] immediately."</div><div class="pt">Este é o último chamado para o voo [número]. Dirija-se ao portão [X] imediatamente.</div><div class="nt red"><strong>"Final boarding call"</strong> = último chamado. Se ouvir isso, <strong>corra</strong>. Após esse aviso, o portão fecha em minutos.</div></div>
+    <div class="cd"><div class="en">"We regret to inform you that Flight [number] has been delayed by approximately two hours."</div><div class="pt">Lamentamos informar que o voo [número] foi adiado em aproximadamente duas horas.</div></div>
+    <div class="cd"><div class="en">"Due to [weather / technical issues], your flight has been cancelled."</div><div class="pt">Devido a [condições climáticas / problemas técnicos], seu voo foi cancelado.</div></div>
+  </div>
+
+  <div class="gr">
+    <div class="gr-t">Perguntas no portão</div>
+    <div class="cd"><div class="en">"Is this the gate for the flight to [destination]?"</div><div class="pt">Esse é o portão do voo para [destino]?</div></div>
+    <div class="cd"><div class="en">"Has the gate changed? The screen says B12 but my boarding pass says B8."</div><div class="pt">O portão mudou? A tela mostra B12 mas meu cartão diz B8.</div></div>
+    <div class="cd"><div class="en">"Is there an expected departure time? We've been waiting for over an hour."</div><div class="pt">Tem uma previsão de horário? Estamos esperando há mais de uma hora.</div></div>
+    <div class="cd"><div class="en">"I need to charge my phone. Is there an outlet nearby?"</div><div class="pt">Preciso carregar meu celular. Tem uma tomada por perto?</div><div class="nt blue"><strong>Outlet</strong> (EUA) ou <strong>power socket</strong> (UK) = tomada.</div></div>
+  </div>
+</section>
+<div class="sep"><span class="d"></span></div>
+<!-- ███ 7 ███ -->
+<section class="sc" id="s7">
+  <div class="sc-tag blue"><span class="n">7</span> Boarding</div>
+  <h2>Embarcando no Avião</h2>
+  <p class="sc-sub">Da fila ao seu assento — os detalhes que fazem diferença.</p>
+
+  <div class="gr">
+    <div class="gr-t">Frases do embarque</div>
+    <div class="cd"><div class="en">"We'd like to invite passengers with small children and anyone needing special assistance to board first."</div><div class="pt">Gostaríamos de convidar passageiros com crianças pequenas e quem precisar de assistência especial para embarcar primeiro.</div></div>
+    <div class="cd"><div class="en">"Welcome aboard. Your seat is on the right side, about halfway down."</div><div class="pt">Bem-vindo a bordo. Seu assento fica do lado direito, mais ou menos no meio.</div></div>
+    <div class="cd"><div class="en">"Excuse me, I think you're in my seat."</div><div class="pt">Com licença, acho que você está no meu assento.</div></div>
+    <div class="cd"><div class="en">"Could you help me put this in the overhead bin? It's a bit heavy."</div><div class="pt">Poderia me ajudar a colocar isso no compartimento? Está um pouco pesado.</div></div>
+    <div class="cd"><div class="en">"Is there any room in the overhead bins? They seem full."</div><div class="pt">Tem espaço nos compartimentos superiores? Parecem cheios.</div></div>
+    <div class="cd"><div class="en">"Would you mind switching seats with me so I can sit with my family?"</div><div class="pt">Você se importaria de trocar de assento comigo para eu sentar com minha família?</div><div class="nt green">Essa é a forma mais educada e natural de pedir uma troca. <strong>"Would you mind…?"</strong> é sempre mais delicado do que "Can you…?"</div></div>
+  </div>
+</section>
+<div class="sep"><span class="d"></span></div>
+<!-- ███ 8 ███ -->
+<section class="sc" id="s8">
+  <div class="sc-tag blue"><span class="n">8</span> In-Flight</div>
+  <h2>Durante o Voo</h2>
+  <p class="sc-sub">Refeições, conforto, pedidos à tripulação e tudo o que acontece no ar.</p>
+
+  <div class="gr">
+    <div class="gr-t">Anúncios de bordo que você vai ouvir</div>
+    <div class="cd"><div class="en">"Ladies and gentlemen, welcome aboard Flight [number] to [destination]. Our estimated flight time is [X] hours."</div><div class="pt">Senhoras e senhores, bem-vindos ao voo [número] para [destino]. Nosso tempo estimado de voo é de [X] horas.</div></div>
+    <div class="cd"><div class="en">"Please fasten your seatbelts, stow your tray tables, and put your seats in the upright position."</div><div class="pt">Apertem os cintos, guardem as mesinhas e coloquem os assentos na posição vertical.</div></div>
+    <div class="cd"><div class="en">"We're now cruising at an altitude of 38,000 feet. You're free to move about the cabin."</div><div class="pt">Estamos em altitude de cruzeiro a 38.000 pés. Podem se movimentar pela cabine.</div></div>
+    <div class="cd"><div class="en">"We will begin our meal service shortly."</div><div class="pt">Iniciaremos o serviço de refeição em breve.</div></div>
+  </div>
+
+  <div class="gr">
+    <div class="gr-t">Pedindo coisas à tripulação</div>
+    <div class="cd"><div class="en">"Could I have a glass of water / orange juice / red wine, please?"</div><div class="pt">Poderia me trazer um copo de água / suco de laranja / vinho tinto, por favor?</div></div>
+    <div class="cd"><div class="en">"Do you have any snacks available?"</div><div class="pt">Vocês têm algum lanche disponível?</div></div>
+    <div class="cd"><div class="en">"Could I get a blanket and a pillow?"</div><div class="pt">Poderia me trazer um cobertor e um travesseiro?</div></div>
+    <div class="cd"><div class="en">"What are the meal options? Is there a vegetarian choice?"</div><div class="pt">Quais são as opções de refeição? Tem opção vegetariana?</div></div>
+    <div class="cd"><div class="en">"Chicken or pasta?" → "Pasta, please."</div><div class="pt">"Frango ou massa?" → "Massa, por favor."</div><div class="nt blue">Essa é a pergunta mais clássica de voos internacionais. A resposta é simples — basta dizer o nome da opção + <strong>"please"</strong>.</div></div>
+    <div class="cd"><div class="en">"Can I have another cup of coffee when you get a chance?"</div><div class="pt">Posso tomar mais uma xícara de café quando puder?</div></div>
+    <div class="cd"><div class="en">"Excuse me, my entertainment screen isn't working."</div><div class="pt">Com licença, minha tela de entretenimento não está funcionando.</div></div>
+    <div class="cd"><div class="en">"Do you have headphones I can use? / Is there Wi-Fi on this flight?"</div><div class="pt">Tem fones de ouvido que eu possa usar? / Tem Wi-Fi neste voo?</div></div>
+    <div class="cd"><div class="en">"Could you tell me when we'll be landing? I need to fill out the customs form."</div><div class="pt">Poderia me dizer quando vamos pousar? Preciso preencher o formulário de alfândega.</div></div>
+  </div>
+
+  <div class="vg">
+    <div class="vi"><div class="en">flight attendant / cabin crew</div><div class="pt">comissário(a) / tripulação</div></div>
+    <div class="vi"><div class="en">seatbelt / fasten your seatbelt</div><div class="pt">cinto / aperte o cinto</div></div>
+    <div class="vi"><div class="en">tray table</div><div class="pt">mesinha (bandeja retrátil)</div></div>
+    <div class="vi"><div class="en">overhead bin / compartment</div><div class="pt">bagageiro superior</div></div>
+    <div class="vi"><div class="en">aisle / cabin</div><div class="pt">corredor / cabine</div></div>
+    <div class="vi"><div class="en">call button</div><div class="pt">botão de chamada</div></div>
+    <div class="vi"><div class="en">life vest / emergency exit</div><div class="pt">colete salva-vidas / saída de emergência</div></div>
+    <div class="vi"><div class="en">turbulence</div><div class="pt">turbulência</div></div>
+  </div>
+</section>
+<div class="sep"><span class="d"></span></div>
+<!-- ███ 9 ███ -->
+<section class="sc" id="s9">
+  <div class="sc-tag gold"><span class="n">9</span> In-Flight Problems</div>
+  <h2>Problemas Durante o Voo</h2>
+  <p class="sc-sub">Turbulência, mal-estar, passageiros incômodos — como lidar com tudo.</p>
+
+  <div class="gr">
+    <div class="gr-t">Passando mal no avião</div>
+    <div class="cd"><div class="en">"I'm not feeling well. Could you bring me a sick bag?"</div><div class="pt">Não estou me sentindo bem. Poderia me trazer um saco de enjoo?</div></div>
+    <div class="cd"><div class="en">"I'm feeling dizzy / nauseous. Is there a doctor on board?"</div><div class="pt">Estou tonto(a) / enjoado(a). Tem médico a bordo?</div></div>
+    <div class="cd"><div class="en">"I have a medical condition. I need my medication — it's in my carry-on."</div><div class="pt">Tenho uma condição médica. Preciso do meu remédio — está na minha bagagem de mão.</div></div>
+    <div class="cd"><div class="en">"I'm having trouble breathing. I think I need oxygen."</div><div class="pt">Estou com dificuldade para respirar. Acho que preciso de oxigênio.</div></div>
+  </div>
+
+  <div class="gr">
+    <div class="gr-t">Problemas com o assento / outros passageiros</div>
+    <div class="cd"><div class="en">"Excuse me, could you ask the person behind me to stop kicking my seat?"</div><div class="pt">Com licença, poderia pedir para a pessoa atrás de mim parar de chutar meu assento?</div></div>
+    <div class="cd"><div class="en">"The passenger next to me is taking up part of my seat. Is there another seat available?"</div><div class="pt">O passageiro ao meu lado está invadindo meu espaço. Tem outro assento disponível?</div></div>
+    <div class="cd"><div class="en">"My seat won't recline. Can you check it?"</div><div class="pt">Meu assento não reclina. Pode verificar?</div></div>
+    <div class="cd"><div class="en">"The air vent above me isn't working."</div><div class="pt">A saída de ar acima de mim não está funcionando.</div></div>
+  </div>
+
+  <div class="gr">
+    <div class="gr-t">Atrasos e desvios</div>
+    <div class="cd"><div class="en">"The captain has informed us we'll be circling for approximately 20 minutes due to air traffic."</div><div class="pt">O comandante informou que ficaremos circulando por cerca de 20 minutos devido ao tráfego aéreo.</div></div>
+    <div class="cd"><div class="en">"Due to weather conditions, we'll be diverting to [alternate airport]."</div><div class="pt">Devido às condições climáticas, seremos desviados para [aeroporto alternativo].</div></div>
+    <div class="cd"><div class="en">"I'm going to miss my connection. What can the airline do for me?"</div><div class="pt">Vou perder minha conexão. O que a companhia aérea pode fazer por mim?</div></div>
+  </div>
+
+  <div class="bk tip">
+    <h4>Dica de Ouro</h4>
+    <p>Se perceber que vai perder a conexão por causa de atraso, <strong>avise um comissário antes do pouso</strong>. Diga: <strong>"I have a tight connection. Is there anything you can do to help me make it?"</strong> (Minha conexão é apertada. Tem como me ajudar a conseguir pegar?) Em muitos casos, a tripulação comunica ao solo e alguém pode estar esperando para guiar você até o próximo portão.</p>
+  </div>
+</section>
+<div class="sep"><span class="d"></span></div>
+<!-- ███ 10 ███ -->
+<section class="sc" id="s10">
+  <div class="sc-tag blue"><span class="n">10</span> Connections</div>
+  <h2>Conexões e Escalas</h2>
+  <p class="sc-sub">Transferências entre voos — o que você precisa saber para não se perder.</p>
+
+  <div class="gr">
+    <div class="gr-t">Encontrando o caminho</div>
+    <div class="cd"><div class="en">"Where do I go for connecting flights?"</div><div class="pt">Para onde vou para voos de conexão?</div></div>
+    <div class="cd"><div class="en">"I have a connection to [destination]. Do I need to go through security again?"</div><div class="pt">Tenho conexão para [destino]. Preciso passar pela segurança de novo?</div><div class="nt gold">Em muitos aeroportos dos EUA, se a conexão é doméstica, <strong>você não passa pela segurança de novo</strong>. Se é internacional → doméstico, normalmente sim. Na Europa, depende se está dentro ou fora do espaço Schengen.</div></div>
+    <div class="cd"><div class="en">"How much time do I have between flights?" / "Is 45 minutes enough for the connection?"</div><div class="pt">Quanto tempo tenho entre os voos? / 45 minutos são suficientes para a conexão?</div></div>
+    <div class="cd"><div class="en">"Is there a transit lounge or somewhere I can rest during the layover?"</div><div class="pt">Tem sala de trânsito ou algum lugar onde posso descansar durante a escala?</div></div>
+  </div>
+
+  <div class="gr">
+    <div class="gr-t">Quando perde a conexão</div>
+    <div class="cd"><div class="en">"I missed my connecting flight because my first flight was delayed. I need to be rebooked."</div><div class="pt">Perdi meu voo de conexão porque meu primeiro voo atrasou. Preciso ser reacomodado(a).</div></div>
+    <div class="cd"><div class="en">"What is the next available flight to [destination]?"</div><div class="pt">Qual é o próximo voo disponível para [destino]?</div></div>
+    <div class="cd"><div class="en">"Will the airline provide a hotel and meals since this was caused by your delay?"</div><div class="pt">A companhia vai fornecer hotel e refeições já que foi causado pelo atraso de vocês?</div></div>
+    <div class="cd"><div class="en">"I need a letter from the airline confirming the delay. It's for my insurance."</div><div class="pt">Preciso de uma carta da companhia confirmando o atraso. É para meu seguro.</div></div>
+  </div>
+
+  <div class="vg">
+    <div class="vi"><div class="en">layover</div><div class="pt">escala / tempo de espera</div></div>
+    <div class="vi"><div class="en">stopover</div><div class="pt">parada longa (geralmente 12h+)</div></div>
+    <div class="vi"><div class="en">connecting flight</div><div class="pt">voo de conexão</div></div>
+    <div class="vi"><div class="en">transfer desk</div><div class="pt">balcão de transferência</div></div>
+    <div class="vi"><div class="en">rebooked / rerouted</div><div class="pt">reacomodado(a) / redirecionado(a)</div></div>
+    <div class="vi"><div class="en">transit area</div><div class="pt">área de trânsito</div></div>
+  </div>
+</section>
+<div class="sep"><span class="d"></span></div>
+<!-- ═══════ TRANSIT BANNER ═══════ -->
+<div class="transit-banner">
+  <div class="tc">
+    <h3>Chegou ao Destino — <em>Agora Começa</em></h3>
+    <p>As próximas seções cobrem o que acontece após o pouso: imigração, alfândega, bagagem e resolução de problemas.</p>
+  </div>
 </div>
+<!-- ███ 11 ███ -->
+<section class="sc" id="s11">
+  <div class="sc-tag gold"><span class="n">11</span> Immigration</div>
+  <h2>Imigração — Passport Control</h2>
+  <p class="sc-sub">O momento mais importante da sua chegada. Prepare-se para cada pergunta.</p>
 
-<script>
-// ─── MEDICAL VOCABULARY ───────────────────────────────────────────────────────
-const VOCAB = [
-  { en: 'dyspnea',        pt: 'dispneia' },
-  { en: 'tachycardia',    pt: 'taquicardia' },
-  { en: 'bradycardia',    pt: 'bradicardia' },
-  { en: 'hypertension',   pt: 'hipertensão' },
-  { en: 'hypoxia',        pt: 'hipóxia' },
-  { en: 'edema',          pt: 'edema' },
-  { en: 'syncope',        pt: 'síncope' },
-  { en: 'auscultation',   pt: 'ausculta' },
-  { en: 'pallor',         pt: 'palidez' },
-  { en: 'cyanosis',       pt: 'cianose' },
-  { en: 'hemoptysis',     pt: 'hemoptise' },
-  { en: 'dysphagia',      pt: 'disfagia' },
-  { en: 'paraesthesia',   pt: 'parestesia' },
-  { en: 'vertigo',        pt: 'vertigem' },
-  { en: 'prognosis',      pt: 'prognóstico' },
-  { en: 'anamnesis',      pt: 'anamnese' },
-  { en: 'triage',         pt: 'triagem' },
-  { en: 'palpation',      pt: 'palpação' },
-  { en: 'percussion',     pt: 'percussão' },
-  { en: 'jaundice',       pt: 'icterícia' },
-  { en: 'diuresis',       pt: 'diurese' },
-  { en: 'embolism',       pt: 'embolia' },
-  { en: 'ischemia',       pt: 'isquemia' },
-  { en: 'infarction',     pt: 'infarto' },
-  { en: 'necrosis',       pt: 'necrose' },
-  { en: 'fibrosis',       pt: 'fibrose' },
-  { en: 'stenosis',       pt: 'estenose' },
-  { en: 'thrombosis',     pt: 'trombose' },
-  { en: 'septicemia',     pt: 'septicemia' },
-  { en: 'hemostasis',     pt: 'hemostasia' },
-  { en: 'diaphoresis',    pt: 'diaforese' },
-  { en: 'epistaxis',      pt: 'epistaxe' },
-  { en: 'oliguria',       pt: 'oligúria' },
-  { en: 'anuria',         pt: 'anúria' },
-  { en: 'hematuria',      pt: 'hematúria' },
-  { en: 'cachexia',       pt: 'caquexia' },
-  { en: 'ascites',        pt: 'ascite' },
-  { en: 'atelectasis',    pt: 'atelectasia' },
-  { en: 'pneumothorax',   pt: 'pneumotórax' },
-  { en: 'emphysema',      pt: 'enfisema' },
-];
+  <p class="sc-intro">A imigração é o ponto onde muitos brasileiros ficam nervosos — e com razão, porque é onde o oficial decide se você entra no país. A boa notícia: as perguntas são previsíveis. A má notícia: respostas confusas, longas demais ou inseguras podem gerar desconfiança. Seja direto, confiante e honesto. Aqui estão todas as perguntas que você pode receber.</p>
 
-const ROMAN = ['I','II','III','IV','V','VI','VII'];
+  <div class="gr">
+    <div class="gr-t">As perguntas clássicas do oficial de imigração</div>
+    <div class="cd"><div class="en">"What is the purpose of your visit?"</div><div class="pt">Qual é o motivo da sua visita?</div></div>
+    <div class="cd"><div class="en">→ "I'm here on vacation / for tourism / for business / to visit family."</div><div class="pt">→ Estou aqui de férias / turismo / negócios / para visitar a família.</div><div class="nt green">Responda de forma curta e direta. <strong>"Tourism"</strong> ou <strong>"Vacation"</strong> geralmente é suficiente. Não dê informações que não foram pedidas.</div></div>
 
-// ─── CANVAS SETUP ────────────────────────────────────────────────────────────
-const canvas = document.getElementById('game');
-const ctx    = canvas.getContext('2d');
-const arena  = document.getElementById('arena');
+    <div class="cd"><div class="en">"How long are you planning to stay?"</div><div class="pt">Quanto tempo pretende ficar?</div></div>
+    <div class="cd"><div class="en">→ "Ten days." / "About two weeks." / "I'm leaving on March 25th."</div><div class="pt">→ Dez dias. / Cerca de duas semanas. / Vou embora dia 25 de março.</div></div>
 
-let COLS, ROWS, CELL, W, H;
+    <div class="cd"><div class="en">"Where will you be staying?"</div><div class="pt">Onde vai ficar hospedado?</div></div>
+    <div class="cd"><div class="en">→ "At the Hilton in Manhattan." / "At my cousin's house in Miami." / "At an Airbnb in Orlando."</div><div class="pt">→ No Hilton em Manhattan. / Na casa do meu primo em Miami. / Em um Airbnb em Orlando.</div></div>
 
-function resize() {
-  const pad  = 32;
-  const aw   = arena.clientWidth  - pad * 2;
-  const ah   = arena.clientHeight - pad * 2;
-  CELL = window.innerWidth < 700 ? 36 : 44;
-  COLS = Math.floor(aw / CELL);
-  ROWS = Math.floor(ah / CELL);
-  // keep odd for centering
-  if (COLS % 2 === 0) COLS--;
-  if (ROWS % 2 === 0) ROWS--;
-  COLS = Math.max(11, COLS);
-  ROWS = Math.max(9,  ROWS);
-  W = COLS * CELL;
-  H = ROWS * CELL;
-  canvas.width  = W;
-  canvas.height = H;
-}
-resize();
+    <div class="cd"><div class="en">"Do you have a return ticket?"</div><div class="pt">Tem passagem de volta?</div></div>
+    <div class="cd"><div class="en">→ "Yes, I'm flying back on [date]." (Tenha a passagem de volta pronta para mostrar.)</div><div class="pt">→ Sim, volto no dia [data].</div></div>
 
-// ─── GAME STATE ──────────────────────────────────────────────────────────────
-let snake, dir, nextDir, food, score, level, speed, paused, running, intervalId;
-let collected = [];
-let foodItem  = null;
+    <div class="cd"><div class="en">"What do you do for a living?" / "What is your occupation?"</div><div class="pt">O que você faz da vida? / Qual é sua profissão?</div></div>
+    <div class="cd"><div class="en">→ "I'm a doctor / an engineer / a business owner / a teacher."</div><div class="pt">→ Sou médico(a) / engenheiro(a) / empresário(a) / professor(a).</div></div>
 
-function initGame() {
-  resize();
-  const cx = Math.floor(COLS / 2);
-  const cy = Math.floor(ROWS / 2);
-  snake   = [{ x: cx, y: cy }, { x: cx - 1, y: cy }, { x: cx - 2, y: cy }];
-  dir     = { x: 1, y: 0 };
-  nextDir = { x: 1, y: 0 };
-  score   = 0;
-  level   = 1;
-  speed   = 200;
-  paused  = false;
-  running = true;
-  collected = [];
-  foodItem  = null;
-  updateScoreDisplay();
-  updateLevelDisplay();
-  placeFood();
-  clearInterval(intervalId);
-  intervalId = setInterval(tick, speed);
-}
+    <div class="cd"><div class="en">"How much money are you bringing?"</div><div class="pt">Quanto dinheiro está trazendo?</div></div>
+    <div class="cd"><div class="en">→ "I'm carrying about $2,000 in cash and I have credit cards."</div><div class="pt">→ Estou com cerca de $2.000 em dinheiro e tenho cartões de crédito.</div><div class="nt red">Se estiver carregando <strong>$10.000 ou mais em espécie</strong> (ou equivalente), é <strong>obrigatório declarar</strong>. Não declarar é crime.</div></div>
 
-// ─── FOOD WORDS ──────────────────────────────────────────────────────────────
-function placeFood() {
-  const remaining = VOCAB.filter(v => !collected.find(c => c.en === v.en));
-  const pool = remaining.length > 0 ? remaining : VOCAB;
-  const item = pool[Math.floor(Math.random() * pool.length)];
-  let x, y, safe;
-  let tries = 0;
-  do {
-    x = 1 + Math.floor(Math.random() * (COLS - 2));
-    y = 1 + Math.floor(Math.random() * (ROWS - 2));
-    safe = !snake.some(s => s.x === x && s.y === y);
-    tries++;
-  } while (!safe && tries < 200);
-  foodItem = { x, y, ...item };
-}
+    <div class="cd"><div class="en">"Is this your first time in the country?"</div><div class="pt">É sua primeira vez no país?</div></div>
+    <div class="cd"><div class="en">→ "No, I've been here twice before." / "Yes, this is my first time."</div><div class="pt">→ Não, já estive aqui duas vezes. / Sim, é minha primeira vez.</div></div>
 
-// ─── TICK ────────────────────────────────────────────────────────────────────
-function tick() {
-  if (!running || paused) return;
-  dir = { ...nextDir };
+    <div class="cd"><div class="en">"Do you have anything to declare?"</div><div class="pt">Tem algo a declarar?</div></div>
+    <div class="cd"><div class="en">→ "No, nothing to declare." / "Just personal belongings."</div><div class="pt">→ Não, nada a declarar. / Apenas pertences pessoais.</div></div>
+  </div>
 
-  const head = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
+  <div class="dlg">
+    <div class="dlg-h">Diálogo Prático — Imigração</div>
+    <div class="dlg-ctx">Balcão de imigração nos EUA — oficial do CBP (Customs and Border Protection)</div>
+    <div class="ln"><div class="av off">OFF</div><div class="bb"><div class="en">Next. Step forward, please. Passport.</div><div class="pt">Próximo. Avance, por favor. Passaporte.</div></div></div>
+    <div class="ln"><div class="av you">You</div><div class="bb"><div class="en">Here you go.</div><div class="pt">Aqui está.</div></div></div>
+    <div class="ln"><div class="av off">OFF</div><div class="bb"><div class="en">What's the purpose of your trip?</div><div class="pt">Qual o motivo da sua viagem?</div></div></div>
+    <div class="ln"><div class="av you">You</div><div class="bb"><div class="en">Tourism. I'm on vacation with my family.</div><div class="pt">Turismo. Estou de férias com minha família.</div></div></div>
+    <div class="ln"><div class="av off">OFF</div><div class="bb"><div class="en">How long will you be in the United States?</div><div class="pt">Quanto tempo vai ficar nos Estados Unidos?</div></div></div>
+    <div class="ln"><div class="av you">You</div><div class="bb"><div class="en">Twelve days. We leave on April 3rd.</div><div class="pt">Doze dias. Partimos dia 3 de abril.</div></div></div>
+    <div class="ln"><div class="av off">OFF</div><div class="bb"><div class="en">Where are you staying?</div><div class="pt">Onde vai ficar?</div></div></div>
+    <div class="ln"><div class="av you">You</div><div class="bb"><div class="en">At a hotel in Orlando — the Marriott on International Drive.</div><div class="pt">Num hotel em Orlando — o Marriott na International Drive.</div></div></div>
+    <div class="ln"><div class="av off">OFF</div><div class="bb"><div class="en">Are you bringing any food, plants, or agricultural products?</div><div class="pt">Está trazendo alimentos, plantas ou produtos agrícolas?</div></div></div>
+    <div class="ln"><div class="av you">You</div><div class="bb"><div class="en">No, nothing like that.</div><div class="pt">Não, nada disso.</div></div></div>
+    <div class="ln"><div class="av off">OFF</div><div class="bb"><div class="en">All right. Welcome to the United States. Enjoy your stay.</div><div class="pt">Tudo certo. Bem-vindo aos Estados Unidos. Aproveite sua estadia.</div></div></div>
+  </div>
 
-  // wall collision
-  if (head.x < 0 || head.x >= COLS || head.y < 0 || head.y >= ROWS) {
-    gameOver(); return;
-  }
-  // self collision
-  if (snake.some(s => s.x === head.x && s.y === head.y)) {
-    gameOver(); return;
-  }
+  <div class="bk cultural">
+    <h4>Nota Cultural — Importante</h4>
+    <p>Na imigração dos EUA, o oficial pode parecer frio, seco e até intimidador. <strong>Isso é normal.</strong> Não leve para o lado pessoal. Mantenha contato visual, responda com frases curtas e diretas, não faça piadas e não dê informações que não foram pedidas. Se não entender uma pergunta, é perfeitamente aceitável dizer: <strong>"I'm sorry, could you repeat that?"</strong> (Desculpe, poderia repetir?). No Reino Unido e na Europa, o processo tende a ser mais breve e menos intimidador, mas as perguntas são similares.</p>
+  </div>
 
-  snake.unshift(head);
+  <div class="bk alert">
+    <h4>O Que Nunca Fazer na Imigração</h4>
+    <p>Nunca minta sobre o motivo da viagem. Nunca diga que pretende trabalhar se tem visto de turista. Nunca mencione "procurar emprego" ou "ver oportunidades" casualmente. Nunca diga que vai ficar "indefinidamente". Nunca perca a calma se o oficial fizer muitas perguntas — é o trabalho dele. E nunca use o celular na fila da imigração (em muitos aeroportos dos EUA, isso é proibido).</p>
+  </div>
+</section>
+<div class="sep"><span class="d"></span></div>
+<!-- ███ 12 ███ -->
+<section class="sc" id="s12">
+  <div class="sc-tag gold"><span class="n">12</span> Customs</div>
+  <h2>Alfândega — Customs</h2>
+  <p class="sc-sub">Depois da imigração, você passa pela alfândega. Saiba o que declarar e como.</p>
 
-  if (foodItem && head.x === foodItem.x && head.y === foodItem.y) {
-    eatFood();
-  } else {
-    snake.pop();
-  }
+  <div class="gr">
+    <div class="gr-t">Perguntas na alfândega</div>
+    <div class="cd"><div class="en">"Do you have anything to declare?"</div><div class="pt">Tem algo a declarar?</div></div>
+    <div class="cd"><div class="en">"Are you carrying more than $10,000 in currency or monetary instruments?"</div><div class="pt">Está carregando mais de $10.000 em dinheiro ou instrumentos monetários?</div></div>
+    <div class="cd"><div class="en">"Are you bringing any food, fruits, meat, seeds, or soil?"</div><div class="pt">Está trazendo alimentos, frutas, carne, sementes ou terra?</div></div>
+    <div class="cd"><div class="en">"Are you carrying any gifts or commercial goods?"</div><div class="pt">Está carregando presentes ou mercadorias comerciais?</div></div>
+    <div class="cd"><div class="en">"Please open your bag." / "Can I take a look inside?"</div><div class="pt">Por favor, abra sua mala. / Posso dar uma olhada?</div></div>
+  </div>
 
-  draw();
-}
+  <div class="gr">
+    <div class="gr-t">Suas respostas</div>
+    <div class="cd"><div class="en">"No, I have nothing to declare. Just personal belongings and clothing."</div><div class="pt">Não, não tenho nada a declarar. Apenas pertences pessoais e roupas.</div></div>
+    <div class="cd"><div class="en">"I have a few gifts for my family, worth about $200 total."</div><div class="pt">Tenho alguns presentes para minha família, no valor total de cerca de $200.</div></div>
+    <div class="cd"><div class="en">"I'm carrying some prescription medication for personal use. Here's the prescription."</div><div class="pt">Estou carregando medicamentos com receita para uso pessoal. Aqui está a receita.</div></div>
+  </div>
 
-function eatFood() {
-  score++;
-  collected.unshift({ en: foodItem.en, pt: foodItem.pt });
-  if (collected.length > 8) collected = collected.slice(0, 8);
-  showWordToast(foodItem);
-  updateGlossary();
-  updateScoreDisplay();
+  <div class="bk warn">
+    <h4>Atenção — Itens Proibidos Mais Comuns</h4>
+    <p>Nos EUA, é <strong>proibido</strong> trazer: frutas frescas, carnes, queijos artesanais não pasteurizados, sementes e plantas. Isso é levado muito a sério — há multas pesadas. Na volta ao Brasil, atenção com os limites de isenção da Receita Federal (atualmente US$1.000 para compras em free shops e US$500 para compras regulares em viagens aéreas). Declare o que ultrapassar o limite.</p>
+  </div>
+</section>
+<div class="sep"><span class="d"></span></div>
+<!-- ███ 13 ███ -->
+<section class="sc" id="s13">
+  <div class="sc-tag blue"><span class="n">13</span> Baggage Claim</div>
+  <h2>Esteira de Bagagem e Mala Extraviada</h2>
+  <p class="sc-sub">Encontrando suas malas — e o que fazer quando elas não aparecem.</p>
 
-  // level up every 5 words
-  const newLevel = Math.floor(score / 5) + 1;
-  if (newLevel !== level) {
-    level = Math.min(newLevel, 7);
-    speed = Math.max(80, 200 - (level - 1) * 18);
-    clearInterval(intervalId);
-    intervalId = setInterval(tick, speed);
-    updateLevelDisplay();
-  }
-  placeFood();
-}
+  <div class="gr">
+    <div class="gr-t">Na esteira</div>
+    <div class="cd"><div class="en">"Which carousel is for Flight [number]?"</div><div class="pt">Em qual esteira está o voo [número]?</div><div class="nt blue"><strong>Carousel</strong> (ou <strong>baggage belt</strong>) = esteira de bagagem.</div></div>
+    <div class="cd"><div class="en">"Excuse me, that's my bag." / "Sorry, I think you grabbed the wrong suitcase."</div><div class="pt">Com licença, essa é minha mala. / Desculpe, acho que pegou a mala errada.</div></div>
+  </div>
 
-function gameOver() {
-  running = false;
-  clearInterval(intervalId);
-  draw(); // draw final state
-  setTimeout(() => showOverlay('over'), 600);
-}
+  <div class="gr">
+    <div class="gr-t">Mala extraviada — no balcão de lost luggage</div>
+    <div class="cd"><div class="en">"My luggage didn't arrive. I was on Flight [number] from [origin]."</div><div class="pt">Minha bagagem não chegou. Estava no voo [número] de [origem].</div></div>
+    <div class="cd"><div class="en">"Here's my baggage claim tag." (Mostre a etiqueta que colaram no seu cartão de embarque.)</div><div class="pt">Aqui está minha etiqueta de bagagem.</div><div class="nt red">Sempre guarde a <strong>baggage claim tag</strong> — é o adesivo com código de barras que colam no cartão de embarque ao despachar as malas. Sem ele, rastrear a bagagem é muito mais difícil.</div></div>
+    <div class="cd"><div class="en">"Can you track my bag? Where do you think it is?"</div><div class="pt">Pode rastrear minha mala? Onde acham que está?</div></div>
+    <div class="cd"><div class="en">"What is my case number? How can I check the status?"</div><div class="pt">Qual é o número do meu caso? Como posso verificar o status?</div></div>
+    <div class="cd"><div class="en">"Can you deliver it to my hotel once it arrives?"</div><div class="pt">Podem entregar no meu hotel quando chegar?</div></div>
+    <div class="cd"><div class="en">"I need some essentials — toothbrush, clothes. Does the airline provide a toiletry kit or compensation?"</div><div class="pt">Preciso de itens básicos — escova de dente, roupas. A companhia fornece kit de higiene ou compensação?</div></div>
+  </div>
 
-// ─── DRAWING ─────────────────────────────────────────────────────────────────
-function draw() {
-  ctx.clearRect(0, 0, W, H);
+  <div class="gr">
+    <div class="gr-t">Mala danificada</div>
+    <div class="cd"><div class="en">"My suitcase arrived damaged. The handle is broken and there's a large dent."</div><div class="pt">Minha mala chegou danificada. A alça está quebrada e tem um amassado grande.</div></div>
+    <div class="cd"><div class="en">"I'd like to file a damage claim. Do I do it here or online?"</div><div class="pt">Gostaria de abrir uma reclamação por dano. Faço aqui ou online?</div></div>
+    <div class="cd"><div class="en">"Items inside my bag are broken too. I had fragile items."</div><div class="pt">Itens dentro da mala também quebraram. Tinha itens frágeis.</div></div>
+  </div>
 
-  // subtle grid lines
-  ctx.strokeStyle = 'rgba(196,164,90,.04)';
-  ctx.lineWidth = 1;
-  for (let c = 0; c <= COLS; c++) {
-    ctx.beginPath(); ctx.moveTo(c * CELL, 0); ctx.lineTo(c * CELL, H); ctx.stroke();
-  }
-  for (let r = 0; r <= ROWS; r++) {
-    ctx.beginPath(); ctx.moveTo(0, r * CELL); ctx.lineTo(W, r * CELL); ctx.stroke();
-  }
+  <div class="dlg">
+    <div class="dlg-h">Diálogo Prático</div>
+    <div class="dlg-ctx">Balcão de lost luggage — sua mala não apareceu na esteira</div>
+    <div class="ln"><div class="av you">You</div><div class="bb"><div class="en">Hi, my bag didn't come out on the carousel. I was on Flight 842 from São Paulo.</div><div class="pt">Oi, minha mala não saiu na esteira. Estava no voo 842 de São Paulo.</div></div></div>
+    <div class="ln"><div class="av them">AG</div><div class="bb"><div class="en">I'm sorry about that. Can I see your baggage claim tag and boarding pass?</div><div class="pt">Sinto muito. Posso ver sua etiqueta de bagagem e cartão de embarque?</div></div></div>
+    <div class="ln"><div class="av you">You</div><div class="bb"><div class="en">Here they are. It's a large black suitcase with a red ribbon on the handle.</div><div class="pt">Aqui estão. É uma mala grande preta com uma fita vermelha na alça.</div></div></div>
+    <div class="ln"><div class="av them">AG</div><div class="bb"><div class="en">Let me check the system… It looks like your bag is still in the São Paulo airport. It should arrive on the next flight tomorrow morning.</div><div class="pt">Deixe eu verificar no sistema… Parece que sua mala ainda está no aeroporto de São Paulo. Deve chegar no próximo voo amanhã de manhã.</div></div></div>
+    <div class="ln"><div class="av you">You</div><div class="bb"><div class="en">Can you deliver it to my hotel? I'm staying at the Marriott on International Drive.</div><div class="pt">Podem entregar no meu hotel? Estou no Marriott na International Drive.</div></div></div>
+    <div class="ln"><div class="av them">AG</div><div class="bb"><div class="en">Absolutely. Here's your reference number. You can track it online. And here's a voucher for basic essentials — up to $50.</div><div class="pt">Com certeza. Aqui está seu número de referência. Pode rastrear online. E aqui está um voucher para itens básicos — até $50.</div></div></div>
+    <div class="ln"><div class="av you">You</div><div class="bb"><div class="en">Thank you. And if it doesn't arrive tomorrow, who should I contact?</div><div class="pt">Obrigado. E se não chegar amanhã, com quem devo falar?</div></div></div>
+  </div>
+</section>
+<div class="sep"><span class="d"></span></div>
+<!-- ███ 14 ███ -->
+<section class="sc" id="s14">
+  <div class="sc-tag red"><span class="n">14</span> Problems</div>
+  <h2>Problemas, Cancelamentos e Reclamações</h2>
+  <p class="sc-sub">Voo cancelado, overbooking, atrasos absurdos — seus direitos e como se comunicar.</p>
 
-  // food word
-  if (foodItem) drawFoodWord(foodItem);
+  <div class="gr">
+    <div class="gr-t">Voo cancelado ou muito atrasado</div>
+    <div class="cd"><div class="en">"My flight has been cancelled. What are my options?"</div><div class="pt">Meu voo foi cancelado. Quais são minhas opções?</div></div>
+    <div class="cd"><div class="en">"Can you put me on the next available flight?"</div><div class="pt">Pode me colocar no próximo voo disponível?</div></div>
+    <div class="cd"><div class="en">"I'd like to be rebooked on a different airline if yours doesn't have anything today."</div><div class="pt">Gostaria de ser reacomodado(a) em outra companhia se a sua não tiver nada hoje.</div></div>
+    <div class="cd"><div class="en">"Is the airline providing hotel accommodation and meals?"</div><div class="pt">A companhia está fornecendo hotel e refeições?</div></div>
+    <div class="cd"><div class="en">"I'd like a written confirmation of the cancellation for my travel insurance."</div><div class="pt">Gostaria de uma confirmação por escrito do cancelamento para meu seguro viagem.</div></div>
+  </div>
 
-  // snake
-  drawSnake();
-}
+  <div class="gr">
+    <div class="gr-t">Overbooking — venderam mais passagens do que lugares</div>
+    <div class="cd"><div class="en">"Are you asking for volunteers to give up their seats? What's the compensation?"</div><div class="pt">Estão pedindo voluntários para ceder seus lugares? Qual é a compensação?</div></div>
+    <div class="cd"><div class="en">"I was involuntarily denied boarding. I need to know my rights and I'd like compensation."</div><div class="pt">Fui impedido(a) de embarcar involuntariamente. Preciso saber meus direitos e gostaria de compensação.</div></div>
+    <div class="cd"><div class="en">"I'm not willing to take a later flight. I need to be on this one."</div><div class="pt">Não estou disposto(a) a pegar um voo mais tarde. Preciso estar neste.</div></div>
+  </div>
 
-function drawSnake() {
-  const len = snake.length;
-  snake.forEach((seg, i) => {
-    const t = i / len; // 0 = head, 1 = tail
-    const x = seg.x * CELL;
-    const y = seg.y * CELL;
-    const pad = 3 + t * 4;
-    const r   = (CELL / 2 - pad);
-    const alpha = 1 - t * 0.6;
+  <div class="gr">
+    <div class="gr-t">Escalando reclamações</div>
+    <div class="cd"><div class="en">"I'd like to speak with a supervisor, please."</div><div class="pt">Gostaria de falar com um supervisor, por favor.</div></div>
+    <div class="cd"><div class="en">"This is unacceptable. I'd like to file a formal complaint."</div><div class="pt">Isso é inaceitável. Gostaria de registrar uma reclamação formal.</div></div>
+    <div class="cd"><div class="en">"Can I get your name and employee number for my records?"</div><div class="pt">Pode me dar seu nome e número de funcionário para meus registros?</div></div>
+    <div class="cd"><div class="en">"I'll be filing a complaint with [regulatory body] and requesting a full refund."</div><div class="pt">Vou registrar uma reclamação com [órgão regulador] e solicitar reembolso total.</div><div class="nt blue">Nos EUA, o órgão regulador é o <strong>DOT (Department of Transportation)</strong>. Na Europa, cite a regulamentação <strong>EU 261</strong> — ela garante compensação por cancelamentos e atrasos longos.</div></div>
+  </div>
 
-    if (i === 0) {
-      // head — gold with glow
-      ctx.save();
-      ctx.shadowColor  = 'rgba(196,164,90,.7)';
-      ctx.shadowBlur   = 18;
-      ctx.fillStyle    = '#C4A45A';
-      roundRect(ctx, x + 3, y + 3, CELL - 6, CELL - 6, 6);
-      ctx.fill();
-      ctx.restore();
+  <div class="bk tip">
+    <h4>Dica de Ouro</h4>
+    <p>Documente tudo: tire fotos de painéis de voo mostrando o atraso/cancelamento, guarde e-mails e notificações da companhia, anote horários e nomes de atendentes, e guarde todos os recibos de despesas causadas pelo problema. Frase poderosa: <strong>"I understand this isn't your fault personally, but I need this resolved. What can you do for me right now?"</strong> (Entendo que a culpa não é pessoalmente sua, mas preciso que isso seja resolvido. O que você pode fazer por mim agora?)</p>
+  </div>
+</section>
+<div class="sep"><span class="d"></span></div>
+<!-- ███ 15 ███ -->
+<section class="sc" id="s15">
+  <div class="sc-tag blue"><span class="n">15</span> Signs & Announcements</div>
+  <h2>Placas, Sinais e Avisos do Aeroporto</h2>
+  <p class="sc-sub">Um guia visual de tudo o que você vai ler e ouvir ao longo do percurso.</p>
 
-      // eyes
-      const eyeSize = 3;
-      ctx.fillStyle = '#050D1A';
-      const ex1 = x + CELL/2 - 4, ey1 = y + CELL/2 - 4;
-      const ex2 = x + CELL/2 + 2, ey2 = y + CELL/2 - 4;
+  <p class="sc-intro">Aeroportos internacionais são cheios de placas em inglês — mesmo em países que não falam inglês. Reconhecer essas palavras instantaneamente evita confusão e atraso. Aqui estão as mais importantes, organizadas por momento da viagem.</p>
 
-      if (dir.x === 1)  { drawEyes(x + CELL - 10, y + CELL/2 - 4, x + CELL - 10, y + CELL/2 + 2); }
-      else if (dir.x === -1) { drawEyes(x + 6, y + CELL/2 - 4, x + 6, y + CELL/2 + 2); }
-      else if (dir.y === -1) { drawEyes(x + CELL/2 - 4, y + 6, x + CELL/2 + 2, y + 6); }
-      else              { drawEyes(x + CELL/2 - 4, y + CELL - 10, x + CELL/2 + 2, y + CELL - 10); }
+  <div class="gr"><div class="gr-t">Placas de orientação geral</div></div>
+  <div class="sign-grid">
+    <div class="sign-item"><span class="icon">🛫</span><div><div class="en">Departures</div><div class="pt">Partidas / Saídas</div></div></div>
+    <div class="sign-item"><span class="icon">🛬</span><div><div class="en">Arrivals</div><div class="pt">Chegadas</div></div></div>
+    <div class="sign-item"><span class="icon">🔀</span><div><div class="en">Connecting Flights / Transfers</div><div class="pt">Conexões / Transferências</div></div></div>
+    <div class="sign-item"><span class="icon">🚻</span><div><div class="en">Restrooms / Toilets</div><div class="pt">Banheiros</div></div></div>
+    <div class="sign-item"><span class="icon">🛒</span><div><div class="en">Duty Free</div><div class="pt">Loja Duty Free</div></div></div>
+    <div class="sign-item"><span class="icon">💱</span><div><div class="en">Currency Exchange</div><div class="pt">Casa de Câmbio</div></div></div>
+    <div class="sign-item"><span class="icon">ℹ️</span><div><div class="en">Information Desk</div><div class="pt">Balcão de Informações</div></div></div>
+    <div class="sign-item"><span class="icon">🚌</span><div><div class="en">Ground Transportation</div><div class="pt">Transporte Terrestre</div></div></div>
+  </div>
 
-    } else {
-      // body — gradient from gold to transparent
-      const gAlpha = Math.max(0.08, alpha);
-      ctx.fillStyle = `rgba(196,164,90,${gAlpha})`;
-      roundRect(ctx, x + 4 + t * 2, y + 4 + t * 2, CELL - 8 - t * 4, CELL - 8 - t * 4, 5);
-      ctx.fill();
+  <div class="gr"><div class="gr-t">Placas de check-in e embarque</div></div>
+  <div class="sign-grid">
+    <div class="sign-item"><span class="icon">📋</span><div><div class="en">Check-in Counters</div><div class="pt">Balcões de Check-in</div></div></div>
+    <div class="sign-item"><span class="icon">🖥</span><div><div class="en">Self Check-in / Kiosks</div><div class="pt">Check-in Automático</div></div></div>
+    <div class="sign-item"><span class="icon">🧳</span><div><div class="en">Baggage Drop</div><div class="pt">Entrega de Bagagem</div></div></div>
+    <div class="sign-item"><span class="icon">🚪</span><div><div class="en">Gate A1–A20</div><div class="pt">Portão A1–A20</div></div></div>
+    <div class="sign-item"><span class="icon">⏰</span><div><div class="en">Boarding / Now Boarding</div><div class="pt">Embarque / Embarcando Agora</div></div></div>
+    <div class="sign-item"><span class="icon">🔴</span><div><div class="en">Gate Closed</div><div class="pt">Portão Fechado</div></div></div>
+    <div class="sign-item"><span class="icon">⏳</span><div><div class="en">Delayed</div><div class="pt">Atrasado</div></div></div>
+    <div class="sign-item"><span class="icon">❌</span><div><div class="en">Cancelled</div><div class="pt">Cancelado</div></div></div>
+  </div>
 
-      // inner shine
-      if (alpha > 0.3) {
-        ctx.fillStyle = `rgba(212,186,122,${gAlpha * 0.4})`;
-        roundRect(ctx, x + 7, y + 7, CELL - 14, 4, 2);
-        ctx.fill();
-      }
-    }
-  });
-}
+  <div class="gr"><div class="gr-t">Placas de segurança e imigração</div></div>
+  <div class="sign-grid">
+    <div class="sign-item"><span class="icon">🔒</span><div><div class="en">Security Checkpoint</div><div class="pt">Controle de Segurança</div></div></div>
+    <div class="sign-item"><span class="icon">🛂</span><div><div class="en">Passport Control / Immigration</div><div class="pt">Controle de Passaportes</div></div></div>
+    <div class="sign-item"><span class="icon">🏛</span><div><div class="en">Customs / Nothing to Declare</div><div class="pt">Alfândega / Nada a Declarar</div></div></div>
+    <div class="sign-item"><span class="icon">📦</span><div><div class="en">Goods to Declare</div><div class="pt">Produtos a Declarar</div></div></div>
+    <div class="sign-item"><span class="icon">🧳</span><div><div class="en">Baggage Claim</div><div class="pt">Retirada de Bagagem</div></div></div>
+    <div class="sign-item"><span class="icon">🔎</span><div><div class="en">Random Inspection</div><div class="pt">Inspeção Aleatória</div></div></div>
+    <div class="sign-item"><span class="icon">🌐</span><div><div class="en">All Passports / Non-EU Citizens</div><div class="pt">Todos os Passaportes / Não-UE</div></div></div>
+    <div class="sign-item"><span class="icon">⚡</span><div><div class="en">Fast Track / Priority Lane</div><div class="pt">Fila Rápida / Fila Prioritária</div></div></div>
+  </div>
 
-function drawEyes(x1, y1, x2, y2) {
-  ctx.fillStyle = '#050D1A';
-  ctx.beginPath(); ctx.arc(x1 + 2, y1 + 2, 2.5, 0, Math.PI * 2); ctx.fill();
-  ctx.beginPath(); ctx.arc(x2 + 2, y2 + 2, 2.5, 0, Math.PI * 2); ctx.fill();
-  ctx.fillStyle = 'rgba(255,255,255,0.7)';
-  ctx.beginPath(); ctx.arc(x1 + 3, y1 + 1, 1, 0, Math.PI * 2); ctx.fill();
-  ctx.beginPath(); ctx.arc(x2 + 3, y2 + 1, 1, 0, Math.PI * 2); ctx.fill();
-}
-
-function drawFoodWord(item) {
-  const x = item.x * CELL;
-  const y = item.y * CELL;
-
-  // pulsing glow halo
-  const time = Date.now() / 1000;
-  const pulse = 0.5 + 0.5 * Math.sin(time * 3);
-
-  ctx.save();
-  ctx.shadowColor  = `rgba(196,164,90,${0.4 + pulse * 0.4})`;
-  ctx.shadowBlur   = 16 + pulse * 10;
-
-  // cell highlight
-  const grad = ctx.createRadialGradient(x + CELL/2, y + CELL/2, 2, x + CELL/2, y + CELL/2, CELL);
-  grad.addColorStop(0, `rgba(196,164,90,${0.22 + pulse * 0.1})`);
-  grad.addColorStop(1, 'rgba(196,164,90,0)');
-  ctx.fillStyle = grad;
-  roundRect(ctx, x + 1, y + 1, CELL - 2, CELL - 2, 8);
-  ctx.fill();
-
-  // border
-  ctx.strokeStyle = `rgba(196,164,90,${0.5 + pulse * 0.3})`;
-  ctx.lineWidth   = 1.5;
-  roundRect(ctx, x + 2, y + 2, CELL - 4, CELL - 4, 7);
-  ctx.stroke();
-  ctx.restore();
-
-  // word — adaptive font size
-  const word = item.en;
-  const maxW  = CELL * 3.2;
-  let fontSize = 11;
-  ctx.font = `500 ${fontSize}px 'Raleway', sans-serif`;
-  while (ctx.measureText(word).width > maxW - 8 && fontSize > 7) {
-    fontSize--;
-    ctx.font = `500 ${fontSize}px 'Raleway', sans-serif`;
-  }
-
-  ctx.save();
-  ctx.shadowColor = 'rgba(196,164,90,.8)';
-  ctx.shadowBlur  = 8;
-  ctx.fillStyle   = `rgba(232,217,176,${0.85 + pulse * 0.15})`;
-  ctx.textAlign   = 'center';
-  ctx.textBaseline = 'middle';
-
-  // draw word ABOVE the cell if it would overflow right
-  const textX = x + CELL / 2;
-  let textY   = y - 10; // above cell
-  if (textY < 14) textY = y + CELL + 14; // below instead
-
-  ctx.font = `500 ${fontSize}px 'Raleway', sans-serif`;
-  ctx.letterSpacing = '0.1em';
-  ctx.fillText(word.toUpperCase(), textX, textY);
-
-  // small gold dot on the cell center
-  ctx.fillStyle = `rgba(196,164,90,${0.7 + pulse * 0.3})`;
-  ctx.beginPath(); ctx.arc(x + CELL/2, y + CELL/2, 4, 0, Math.PI * 2); ctx.fill();
-
-  ctx.restore();
-}
-
-function roundRect(ctx, x, y, w, h, r) {
-  ctx.beginPath();
-  ctx.moveTo(x + r, y);
-  ctx.lineTo(x + w - r, y);
-  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
-  ctx.lineTo(x + w, y + h - r);
-  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-  ctx.lineTo(x + r, y + h);
-  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
-  ctx.lineTo(x, y + r);
-  ctx.quadraticCurveTo(x, y, x + r, y);
-  ctx.closePath();
-}
-
-// ─── UI UPDATES ──────────────────────────────────────────────────────────────
-function updateScoreDisplay() {
-  const el = document.getElementById('scoreDisplay');
-  el.textContent = score;
-  el.classList.remove('pulse');
-  void el.offsetWidth;
-  el.classList.add('pulse');
-}
-
-function updateLevelDisplay() {
-  document.getElementById('levelDisplay').textContent = ROMAN[level - 1] || level;
-}
-
-function showWordToast(item) {
-  const el = document.getElementById('wordToast');
-  el.textContent = `${item.en} — ${item.pt}`;
-  el.classList.remove('show');
-  void el.offsetWidth;
-  el.classList.add('show');
-  setTimeout(() => el.classList.remove('show'), 900);
-}
-
-function updateGlossary() {
-  const g = document.getElementById('glossary');
-  // keep title
-  const title = g.querySelector('.glossary-title');
-  g.innerHTML = '';
-  g.appendChild(title);
-  collected.slice(0, 6).forEach((item, i) => {
-    const entry = document.createElement('div');
-    entry.className = 'glossary-entry';
-    entry.style.animationDelay = `${i * 50}ms`;
-    entry.innerHTML = `<div class="glossary-word">${item.en}</div><div class="glossary-pt">${item.pt}</div>`;
-    g.appendChild(entry);
-  });
-}
-
-function showOverlay(which) {
-  document.getElementById('overlayStart').classList.add('hidden');
-  document.getElementById('overlayOver').classList.add('hidden');
-  if (which === 'start') {
-    document.getElementById('overlayStart').classList.remove('hidden');
-  } else if (which === 'over') {
-    document.getElementById('finalScore').textContent = score;
-    const last = collected[0];
-    document.getElementById('lastWord').textContent = last
-      ? `Último termo: ${last.en} — ${last.pt}`
-      : 'Continue praticando!';
-    document.getElementById('overlayOver').classList.remove('hidden');
-  }
-}
-
-// ─── ANIMATION LOOP (for food pulse while running) ────────────────────────────
-let rafId;
-function animate() {
-  if (running && !paused) draw();
-  rafId = requestAnimationFrame(animate);
-}
-animate();
-
-// ─── CONTROLS ────────────────────────────────────────────────────────────────
-document.addEventListener('keydown', e => {
-  const key = e.key;
-  if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','w','a','s','d'].includes(key)) {
-    e.preventDefault();
-  }
-  if (!running) return;
-  if (key === 'p' || key === 'P') {
-    paused = !paused;
-    return;
-  }
-  const map = {
-    ArrowUp:    { x: 0,  y: -1 },
-    ArrowDown:  { x: 0,  y:  1 },
-    ArrowLeft:  { x: -1, y:  0 },
-    ArrowRight: { x: 1,  y:  0 },
-    w:          { x: 0,  y: -1 },
-    s:          { x: 0,  y:  1 },
-    a:          { x: -1, y:  0 },
-    d:          { x: 1,  y:  0 },
-  };
-  const nd = map[key];
-  if (nd && !(nd.x === -dir.x && nd.y === -dir.y)) {
-    nextDir = nd;
-  }
-});
-
-// Touch/swipe support
-let touchStart = null;
-canvas.addEventListener('touchstart', e => {
-  touchStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-}, { passive: true });
-canvas.addEventListener('touchend', e => {
-  if (!touchStart) return;
-  const dx = e.changedTouches[0].clientX - touchStart.x;
-  const dy = e.changedTouches[0].clientY - touchStart.y;
-  if (Math.abs(dx) > Math.abs(dy)) {
-    const nd = dx > 0 ? { x: 1, y: 0 } : { x: -1, y: 0 };
-    if (!(nd.x === -dir.x)) nextDir = nd;
-  } else {
-    const nd = dy > 0 ? { x: 0, y: 1 } : { x: 0, y: -1 };
-    if (!(nd.y === -dir.y)) nextDir = nd;
-  }
-  touchStart = null;
-}, { passive: true });
-
-// ─── BUTTONS ─────────────────────────────────────────────────────────────────
-document.getElementById('btnStart').addEventListener('click', () => {
-  document.getElementById('overlayStart').classList.add('hidden');
-  initGame();
-});
-document.getElementById('btnRestart').addEventListener('click', () => {
-  document.getElementById('overlayOver').classList.add('hidden');
-  initGame();
-});
-
-// ─── RESIZE ──────────────────────────────────────────────────────────────────
-window.addEventListener('resize', () => {
-  if (!running) { resize(); draw(); }
-});
-
-// initial draw
-draw();
-</script>
-</body>
-</html>
+  <div class="bk cultural">
+    <h4>Anúncios que Você Vai Ouvir em Alto-Falantes</h4>
+    <p><strong>"Attention all passengers…"</strong> (Atenção, todos os passageiros…) — usado para qualquer aviso geral. <strong>"Passenger [nome], please report to Gate [X] immediately"</strong> — significa que estão chamando você pelo nome; se ouvir seu nome, vá correndo. <strong>"This is a security announcement. Please do not leave bags unattended."</strong> (Este é um aviso de segurança. Não deixe bagagens desacompanhadas.) — aviso automático repetido constantemente, apenas ignore.</p>
+  </div>
+</section>
+<!-- ═══════ FOOTER ═══════ -->
+<div class="sep"><span class="d"></span></div>
+<footer class="footer">
+  <div class="footer-b">Airport, Flight & Immigration — English for Travelers</div>
+  <p class="footer-t">Conteúdo exclusivo para fins educacionais.<br>Desenvolvido com excelência para alunos que buscam comunicação internacional de alto nível.</p>
+</footer>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p></main>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
