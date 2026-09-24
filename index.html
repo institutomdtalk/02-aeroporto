@@ -1,4 +1,12 @@
-<p>Airport, Flight & Immigration — English for Travelers</p>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Airport, Flight &amp; Immigration — English for Travelers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono&family=Nunito+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg:#F5F6FA;
@@ -35,12 +43,13 @@ body{font-family:var(--fb);background:var(--bg);color:var(--ink);line-height:1.7
 /* ═══ HERO ═══ */
 .hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;background:linear-gradient(160deg,#080E1F 0%,#0F1A33 25%,#1B2847 50%,#162240 75%,#080E1F 100%)}
 .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 45% at 30% 50%,rgba(74,143,212,.1) 0%,transparent 55%),radial-gradient(ellipse 50% 40% at 70% 40%,rgba(201,168,76,.06) 0%,transparent 50%);z-index:1}
-.hero::after{content:'';position:absolute;inset:0;opacity:.4;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='<a href="http://www.w3.org/2000/svg" class="redactor-autoparser-object">http://www.w3.org/2000/svg</a>'%3E%3Cpath d='M30 28l2 2-2 2-2-2z' fill='%234A8FD4' fill-opacity='.04'/%3E%3C/svg%3E");z-index:1}
+.hero::after{content:'';position:absolute;inset:0;opacity:.4;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 28l2 2-2 2-2-2z' fill='%234A8FD4' fill-opacity='.04'/%3E%3C/svg%3E");z-index:1}
 
 .hero-c{position:relative;z-index:2;text-align:center;padding:2rem;max-width:800px;animation:hIn 1.4s ease-out}
 @keyframes hIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
 
-.hero-icon{font-size:2rem;margin-bottom:1.5rem;display:block;opacity:.7}
+.hero-icon{display:block;margin:0 auto 1.5rem;width:34px;height:34px;color:var(--sky-l);opacity:.75}
+.hero-icon svg{width:34px;height:34px}
 .hero-badge{display:inline-block;font-family:var(--fb);font-size:.67rem;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--sky-l);border:1px solid rgba(107,175,232,.25);padding:.45rem 1.4rem;border-radius:100px;margin-bottom:2rem;background:rgba(107,175,232,.06)}
 
 .hero h1{font-family:var(--fd);font-size:clamp(2.5rem,5.5vw,4.6rem);font-weight:400;color:#F5F6FA;line-height:1.12;letter-spacing:-.01em}
@@ -116,26 +125,27 @@ body{font-family:var(--fb);background:var(--bg);color:var(--ink);line-height:1.7
 
 /* ═══ BLOCKS ═══ */
 .bk{border-radius:12px;padding:1.6rem 1.7rem;margin:2rem 0;position:relative;border:1px solid}
-.bk::before{font-size:1.15rem;position:absolute;top:-.65rem;left:1.3rem;padding:0 .4rem}
+.bk::before{content:'';position:absolute;top:-5px;left:1.5rem;width:9px;height:9px;transform:rotate(45deg);box-shadow:0 0 0 4px var(--bg)}
 .bk h4{font-family:var(--fb);font-size:.66rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.55rem}
 .bk p{font-size:.92rem;color:var(--ink-s);line-height:1.75}
 
 .bk.tip{background:linear-gradient(135deg,var(--sky-bg),var(--bg));border-color:rgba(74,143,212,.15)}
-.bk.tip::before{content:'💡';background:var(--bg)} .bk.tip h4{color:var(--sky)}
+.bk.tip::before{background:var(--sky)} .bk.tip h4{color:var(--sky)}
 
 .bk.cultural{background:linear-gradient(135deg,var(--plum-bg),var(--bg));border-color:rgba(110,75,138,.12)}
-.bk.cultural::before{content:'🌍';background:var(--bg)} .bk.cultural h4{color:var(--plum)}
+.bk.cultural::before{background:var(--plum)} .bk.cultural h4{color:var(--plum)}
 
 .bk.alert{background:linear-gradient(135deg,var(--red-bg),var(--bg));border-color:rgba(196,75,63,.15)}
-.bk.alert::before{content:'🚨';background:var(--bg)} .bk.alert h4{color:var(--red)}
+.bk.alert::before{background:var(--red)} .bk.alert h4{color:var(--red)}
 
 .bk.warn{background:linear-gradient(135deg,var(--gold-bg),var(--bg));border-color:rgba(201,168,76,.2)}
-.bk.warn::before{content:'⚠️';background:var(--bg)} .bk.warn h4{color:#8B6914}
+.bk.warn::before{background:var(--gold)} .bk.warn h4{color:#8B6914}
 
 /* ═══ SIGNS ═══ */
 .sign-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.5rem;margin:1.5rem 0 2rem}
 .sign-item{background:var(--navy-d);border-radius:8px;padding:.9rem 1.1rem;color:#F5F6FA;display:flex;align-items:center;gap:.75rem}
-.sign-item .icon{font-size:1.2rem;flex-shrink:0;opacity:.8}
+.sign-item .icon{flex-shrink:0;display:flex;color:var(--gold)}
+.sign-item .icon svg{width:22px;height:22px}
 .sign-item .en{font-family:var(--fm);font-size:.82rem;font-weight:400;color:#F5F6FA;letter-spacing:.03em}
 .sign-item .pt{font-family:var(--fb);font-size:.72rem;color:rgba(245,246,250,.5)}
 
@@ -146,7 +156,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--ink);line-height:1.7
 
 /* ═══ TRANSIT BANNER ═══ */
 .transit-banner{background:linear-gradient(135deg,var(--navy-d) 0%,var(--navy) 50%,var(--navy-d) 100%);padding:3rem 2rem;text-align:center;margin-top:4rem;position:relative;overflow:hidden}
-.transit-banner::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='30' height='30' xmlns='<a href="http://www.w3.org/2000/svg" class="redactor-autoparser-object">http://www.w3.org/2000/svg</a>'%3E%3Cpath d='M15 14h1v2h-1z' fill='%234A8FD4' fill-opacity='.06'/%3E%3C/svg%3E")}
+.transit-banner::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='30' height='30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M15 14h1v2h-1z' fill='%234A8FD4' fill-opacity='.06'/%3E%3C/svg%3E")}
 .transit-banner .tc{position:relative;z-index:1}
 .transit-banner h3{font-family:var(--fd);font-size:1.7rem;font-weight:400;color:rgba(245,246,250,.85);margin-bottom:.4rem}
 .transit-banner p{font-family:var(--fb);font-size:.85rem;color:rgba(245,246,250,.4);max-width:480px;margin:0 auto;line-height:1.6}
@@ -155,6 +165,9 @@ body{font-family:var(--fb);background:var(--bg);color:var(--ink);line-height:1.7
 .footer{text-align:center;padding:3.5rem 2rem;border-top:1px solid var(--brd-l);margin-top:3rem}
 .footer-b{font-family:var(--fd);font-size:1.25rem;color:var(--ink);margin-bottom:.35rem}
 .footer-t{font-family:var(--fb);font-size:.76rem;color:var(--ink-m)}
+.sig{display:flex;flex-direction:column;align-items:center;gap:1.1rem;margin-top:2.2rem;padding-top:2rem;border-top:1px solid var(--brd-l)}
+.sig-n{font-family:var(--fd);font-size:1.05rem;color:var(--ink)}
+.sig-r{font-family:var(--fb);font-size:.6rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-top:.15rem}
 
 /* ═══ RESPONSIVE ═══ */
 @media(max-width:768px){
@@ -169,10 +182,12 @@ body{font-family:var(--fb);background:var(--bg);color:var(--ink);line-height:1.7
 .fi{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease}
 .fi.v{opacity:1;transform:translateY(0)}
 </style>
+</head>
+<body>
 <!-- ═══════ HERO ═══════ -->
 <section class="hero">
   <div class="hero-c">
-    <span class="hero-icon">✈</span>
+    <span class="hero-icon"><svg class="hero-plane" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path fill="currentColor" stroke="none" transform="translate(12 12) rotate(90) scale(0.95) translate(-12 -12)" d="M12 2c.8 0 1.5.9 1.5 2v5.5l7.5 4.5v2l-7.5-2.3v4.8l2 1.5v1.5L12 20.5 8.5 21.5V20l2-1.5v-4.8L3 16v-2l7.5-4.5V4c0-1.1.7-2 1.5-2z"/></svg></span>
     <div class="hero-badge">English for Travelers — Módulo Completo</div>
     <h1>Airport, Flight<br>& <em>Immigration</em></h1>
     <div class="hero-line"></div>
@@ -206,31 +221,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--ink);line-height:1.7
   </div>
 </nav>
 <!-- ═══════ MAIN ═══════ -->
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p><main class="main"><p></p>
-<!-- ███ 1 ███ -->
+<main class="main"><!-- ███ 1 ███ -->
 <section class="sc" id="s1">
   <div class="sc-tag blue"><span class="n">1</span> Before You Go</div>
   <h2>Preparação e Check-in Online</h2>
@@ -278,9 +269,9 @@ body{font-family:var(--fb);background:var(--bg);color:var(--ink);line-height:1.7
     <div class="cd"><div class="en">"Which terminal is for international departures?"</div><div class="pt">Qual terminal é para voos internacionais?</div></div>
     <div class="cd"><div class="en">"Where is the check-in counter for [airline name]?"</div><div class="pt">Onde fica o balcão de check-in da [companhia aérea]?</div></div>
     <div class="cd"><div class="en">"Is there a shuttle between terminals?"</div><div class="pt">Tem um transporte entre terminais?</div></div>
-    <div class="cd"><div class="en">"Where can I find a luggage cart?"</div><div class="pt">Onde posso encontrar um carrinho de bagagem?</div><div class="nt blue"><strong>Luggage cart</strong> (EUA) ou <strong>trolley</strong> (Reino Unido). Em muitos aeroportos americanos, os carrinhos são pagos (~$5).</div></div>
+    <div class="cd"><div class="en">"Where can I find a luggage cart?"</div><div class="pt">Onde posso encontrar um carrinho de bagagem?</div><div class="nt blue"><strong>Luggage cart</strong> = carrinho de bagagem. Em muitos aeroportos americanos, os carrinhos são pagos (~$5).</div></div>
     <div class="cd"><div class="en">"Is there a currency exchange nearby?" / "Where's the nearest ATM?"</div><div class="pt">Tem casa de câmbio por perto? / Onde fica o caixa eletrônico mais próximo?</div></div>
-    <div class="cd"><div class="en">"Where are the restrooms?"</div><div class="pt">Onde ficam os banheiros?</div><div class="nt green"><strong>Restroom</strong> (EUA) ou <strong>toilet / loo</strong> (Reino Unido). Nunca diga "bathroom" em público — é entendido, mas soa estranho em contexto de aeroporto.</div></div>
+    <div class="cd"><div class="en">"Where are the restrooms?"</div><div class="pt">Onde ficam os banheiros?</div><div class="nt green"><strong>Restroom</strong> é o termo das placas nos aeroportos americanos. Na conversa, <strong>bathroom</strong> é a forma mais comum e natural — "Where's the bathroom?" funciona em qualquer lugar, inclusive no aeroporto.</div></div>
   </div>
 </section>
 <div class="sep"><span class="d"></span></div>
@@ -301,7 +292,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--ink);line-height:1.7
 
   <div class="gr">
     <div class="gr-t">Seus pedidos no check-in</div>
-    <div class="cd"><div class="en">"I'd like a window seat, please. Towards the front if possible."</div><div class="pt">Gostaria de janela, por favor. Na frente, se possível.</div></div>
+    <div class="cd"><div class="en">"I'd like a window seat, please. Toward the front if possible."</div><div class="pt">Gostaria de janela, por favor. Na frente, se possível.</div></div>
     <div class="cd"><div class="en">"Can I get an emergency exit row seat? I need the extra legroom."</div><div class="pt">Posso pegar assento na fileira da saída de emergência? Preciso do espaço extra para as pernas.</div><div class="nt blue"><strong>Legroom</strong> = espaço para as pernas. <strong>Exit row</strong> = fileira da saída de emergência (mais espaço, mas com responsabilidades).</div></div>
     <div class="cd"><div class="en">"We're traveling together. Can you seat us next to each other?"</div><div class="pt">Estamos viajando juntos. Pode nos colocar lado a lado?</div></div>
     <div class="cd"><div class="en">"I have a connecting flight to [destination]. Will my bags be checked through?"</div><div class="pt">Tenho um voo de conexão para [destino]. Minhas malas vão direto?</div><div class="nt blue"><strong>"Checked through"</strong> = despachada direto até o destino final, sem precisar retirar na conexão. Pergunta essencial!</div></div>
@@ -317,7 +308,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--ink);line-height:1.7
     <div class="ln"><div class="av you">You</div><div class="bb"><div class="en">Two checked bags and one carry-on. Will the bags go straight through to London?</div><div class="pt">Duas despachadas e uma de mão. As malas vão direto para Londres?</div></div></div>
     <div class="ln"><div class="av them">AG</div><div class="bb"><div class="en">Yes, they'll be tagged through to Heathrow. You won't need to pick them up in Miami. Do you have a seat preference?</div><div class="pt">Sim, serão etiquetadas até Heathrow. Não precisará retirá-las em Miami. Tem preferência de assento?</div></div></div>
     <div class="ln"><div class="av you">You</div><div class="bb"><div class="en">An aisle seat, please. And could you make sure my bags don't exceed the weight limit?</div><div class="pt">Corredor, por favor. E pode verificar se minhas malas não excedem o limite de peso?</div></div></div>
-    <div class="ln"><div class="av them">AG</div><div class="bb"><div class="en">Let's weigh them. The first one is 21 kilos — perfect. The second is 24 — just under the limit. You're all set. Here's your boarding pass. Gate B12, boarding at 2:15 PM.</div><div class="pt">Vamos pesar. A primeira está com 21 quilos — perfeito. A segunda com 24 — dentro do limite. Tudo certo. Aqui está seu cartão de embarque. Portão B12, embarque às 14h15.</div></div></div>
+    <div class="ln"><div class="av them">AG</div><div class="bb"><div class="en">Let's weigh them. The first one is 21 kilos — perfect. The second is 22.8 — just under the limit. You're all set. Here's your boarding pass. Gate B12, boarding at 2:15 PM.</div><div class="pt">Vamos pesar. A primeira está com 21 quilos — perfeito. A segunda com 22,8 — dentro do limite. Tudo certo. Aqui está seu cartão de embarque. Portão B12, embarque às 14h15.</div></div></div>
   </div>
 </section>
 <div class="sep"><span class="d"></span></div>
@@ -350,8 +341,8 @@ body{font-family:var(--fb);background:var(--bg);color:var(--ink);line-height:1.7
   </div>
 
   <div class="vg">
-    <div class="vi"><div class="en">checked bag / hold luggage</div><div class="pt">bagagem despachada</div></div>
-    <div class="vi"><div class="en">carry-on / hand luggage</div><div class="pt">bagagem de mão</div></div>
+    <div class="vi"><div class="en">checked bag</div><div class="pt">bagagem despachada</div></div>
+    <div class="vi"><div class="en">carry-on</div><div class="pt">bagagem de mão</div></div>
     <div class="vi"><div class="en">personal item</div><div class="pt">item pessoal</div></div>
     <div class="vi"><div class="en">overhead bin / compartment</div><div class="pt">compartimento acima do assento</div></div>
     <div class="vi"><div class="en">baggage tag / luggage tag</div><div class="pt">etiqueta de bagagem</div></div>
@@ -405,7 +396,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--ink);line-height:1.7
     <div class="cd"><div class="en">"We are now boarding Group 2. Please have your boarding pass and ID ready."</div><div class="pt">Estamos embarcando o Grupo 2. Tenha seu cartão de embarque e documento prontos.</div></div>
     <div class="cd"><div class="en">"This is the final boarding call for Flight [number]. Please proceed to Gate [X] immediately."</div><div class="pt">Este é o último chamado para o voo [número]. Dirija-se ao portão [X] imediatamente.</div><div class="nt red"><strong>"Final boarding call"</strong> = último chamado. Se ouvir isso, <strong>corra</strong>. Após esse aviso, o portão fecha em minutos.</div></div>
     <div class="cd"><div class="en">"We regret to inform you that Flight [number] has been delayed by approximately two hours."</div><div class="pt">Lamentamos informar que o voo [número] foi adiado em aproximadamente duas horas.</div></div>
-    <div class="cd"><div class="en">"Due to [weather / technical issues], your flight has been cancelled."</div><div class="pt">Devido a [condições climáticas / problemas técnicos], seu voo foi cancelado.</div></div>
+    <div class="cd"><div class="en">"Due to [weather / technical issues], your flight has been canceled."</div><div class="pt">Devido a [condições climáticas / problemas técnicos], seu voo foi cancelado.</div></div>
   </div>
 
   <div class="gr">
@@ -413,7 +404,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--ink);line-height:1.7
     <div class="cd"><div class="en">"Is this the gate for the flight to [destination]?"</div><div class="pt">Esse é o portão do voo para [destino]?</div></div>
     <div class="cd"><div class="en">"Has the gate changed? The screen says B12 but my boarding pass says B8."</div><div class="pt">O portão mudou? A tela mostra B12 mas meu cartão diz B8.</div></div>
     <div class="cd"><div class="en">"Is there an expected departure time? We've been waiting for over an hour."</div><div class="pt">Tem uma previsão de horário? Estamos esperando há mais de uma hora.</div></div>
-    <div class="cd"><div class="en">"I need to charge my phone. Is there an outlet nearby?"</div><div class="pt">Preciso carregar meu celular. Tem uma tomada por perto?</div><div class="nt blue"><strong>Outlet</strong> (EUA) ou <strong>power socket</strong> (UK) = tomada.</div></div>
+    <div class="cd"><div class="en">"I need to charge my phone. Is there an outlet nearby?"</div><div class="pt">Preciso carregar meu celular. Tem uma tomada por perto?</div><div class="nt blue"><strong>Outlet</strong> = tomada.</div></div>
   </div>
 </section>
 <div class="sep"><span class="d"></span></div>
@@ -481,7 +472,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--ink);line-height:1.7
 
   <div class="gr">
     <div class="gr-t">Passando mal no avião</div>
-    <div class="cd"><div class="en">"I'm not feeling well. Could you bring me a sick bag?"</div><div class="pt">Não estou me sentindo bem. Poderia me trazer um saco de enjoo?</div></div>
+    <div class="cd"><div class="en">"I'm not feeling well. Could you bring me an airsickness bag?"</div><div class="pt">Não estou me sentindo bem. Poderia me trazer um saco de enjoo?</div></div>
     <div class="cd"><div class="en">"I'm feeling dizzy / nauseous. Is there a doctor on board?"</div><div class="pt">Estou tonto(a) / enjoado(a). Tem médico a bordo?</div></div>
     <div class="cd"><div class="en">"I have a medical condition. I need my medication — it's in my carry-on."</div><div class="pt">Tenho uma condição médica. Preciso do meu remédio — está na minha bagagem de mão.</div></div>
     <div class="cd"><div class="en">"I'm having trouble breathing. I think I need oxygen."</div><div class="pt">Estou com dificuldade para respirar. Acho que preciso de oxigênio.</div></div>
@@ -532,7 +523,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--ink);line-height:1.7
 
   <div class="vg">
     <div class="vi"><div class="en">layover</div><div class="pt">escala / tempo de espera</div></div>
-    <div class="vi"><div class="en">stopover</div><div class="pt">parada longa (geralmente 12h+)</div></div>
+    <div class="vi"><div class="en">stopover</div><div class="pt">parada longa (em voos internacionais, geralmente mais de 24h)</div></div>
     <div class="vi"><div class="en">connecting flight</div><div class="pt">voo de conexão</div></div>
     <div class="vi"><div class="en">transfer desk</div><div class="pt">balcão de transferência</div></div>
     <div class="vi"><div class="en">rebooked / rerouted</div><div class="pt">reacomodado(a) / redirecionado(a)</div></div>
@@ -633,7 +624,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--ink);line-height:1.7
 
   <div class="bk warn">
     <h4>Atenção — Itens Proibidos Mais Comuns</h4>
-    <p>Nos EUA, é <strong>proibido</strong> trazer: frutas frescas, carnes, queijos artesanais não pasteurizados, sementes e plantas. Isso é levado muito a sério — há multas pesadas. Na volta ao Brasil, atenção com os limites de isenção da Receita Federal (atualmente US$1.000 para compras em free shops e US$500 para compras regulares em viagens aéreas). Declare o que ultrapassar o limite.</p>
+    <p>Nos EUA, é <strong>proibido</strong> trazer: frutas frescas, carnes, queijos artesanais não pasteurizados, sementes e plantas. Isso é levado muito a sério — há multas pesadas. Na volta ao Brasil, atenção com os limites de isenção da Receita Federal (atualmente US$1.000 para compras em free shop na chegada e US$1.000 para os demais bens trazidos em viagens aéreas). Declare o que ultrapassar o limite.</p>
   </div>
 </section>
 <div class="sep"><span class="d"></span></div>
@@ -676,6 +667,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--ink);line-height:1.7
     <div class="ln"><div class="av you">You</div><div class="bb"><div class="en">Can you deliver it to my hotel? I'm staying at the Marriott on International Drive.</div><div class="pt">Podem entregar no meu hotel? Estou no Marriott na International Drive.</div></div></div>
     <div class="ln"><div class="av them">AG</div><div class="bb"><div class="en">Absolutely. Here's your reference number. You can track it online. And here's a voucher for basic essentials — up to $50.</div><div class="pt">Com certeza. Aqui está seu número de referência. Pode rastrear online. E aqui está um voucher para itens básicos — até $50.</div></div></div>
     <div class="ln"><div class="av you">You</div><div class="bb"><div class="en">Thank you. And if it doesn't arrive tomorrow, who should I contact?</div><div class="pt">Obrigado. E se não chegar amanhã, com quem devo falar?</div></div></div>
+    <div class="ln"><div class="av them">AG</div><div class="bb"><div class="en">Just call the number on your claim form, or check your case status online with your reference number. We'll keep you updated by text and email.</div><div class="pt">É só ligar para o número no seu formulário ou verificar o status do caso online com seu número de referência. Vamos manter você informado(a) por SMS e e-mail.</div></div></div>
   </div>
 </section>
 <div class="sep"><span class="d"></span></div>
@@ -687,7 +679,7 @@ body{font-family:var(--fb);background:var(--bg);color:var(--ink);line-height:1.7
 
   <div class="gr">
     <div class="gr-t">Voo cancelado ou muito atrasado</div>
-    <div class="cd"><div class="en">"My flight has been cancelled. What are my options?"</div><div class="pt">Meu voo foi cancelado. Quais são minhas opções?</div></div>
+    <div class="cd"><div class="en">"My flight has been canceled. What are my options?"</div><div class="pt">Meu voo foi cancelado. Quais são minhas opções?</div></div>
     <div class="cd"><div class="en">"Can you put me on the next available flight?"</div><div class="pt">Pode me colocar no próximo voo disponível?</div></div>
     <div class="cd"><div class="en">"I'd like to be rebooked on a different airline if yours doesn't have anything today."</div><div class="pt">Gostaria de ser reacomodado(a) em outra companhia se a sua não tiver nada hoje.</div></div>
     <div class="cd"><div class="en">"Is the airline providing hotel accommodation and meals?"</div><div class="pt">A companhia está fornecendo hotel e refeições?</div></div>
@@ -725,38 +717,38 @@ body{font-family:var(--fb);background:var(--bg);color:var(--ink);line-height:1.7
 
   <div class="gr"><div class="gr-t">Placas de orientação geral</div></div>
   <div class="sign-grid">
-    <div class="sign-item"><span class="icon">🛫</span><div><div class="en">Departures</div><div class="pt">Partidas / Saídas</div></div></div>
-    <div class="sign-item"><span class="icon">🛬</span><div><div class="en">Arrivals</div><div class="pt">Chegadas</div></div></div>
-    <div class="sign-item"><span class="icon">🔀</span><div><div class="en">Connecting Flights / Transfers</div><div class="pt">Conexões / Transferências</div></div></div>
-    <div class="sign-item"><span class="icon">🚻</span><div><div class="en">Restrooms / Toilets</div><div class="pt">Banheiros</div></div></div>
-    <div class="sign-item"><span class="icon">🛒</span><div><div class="en">Duty Free</div><div class="pt">Loja Duty Free</div></div></div>
-    <div class="sign-item"><span class="icon">💱</span><div><div class="en">Currency Exchange</div><div class="pt">Casa de Câmbio</div></div></div>
-    <div class="sign-item"><span class="icon">ℹ️</span><div><div class="en">Information Desk</div><div class="pt">Balcão de Informações</div></div></div>
-    <div class="sign-item"><span class="icon">🚌</span><div><div class="en">Ground Transportation</div><div class="pt">Transporte Terrestre</div></div></div>
+    <div class="sign-item"><span class="icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path fill="currentColor" stroke="none" transform="translate(12 10) rotate(45) scale(0.78) translate(-12 -12)" d="M12 2c.8 0 1.5.9 1.5 2v5.5l7.5 4.5v2l-7.5-2.3v4.8l2 1.5v1.5L12 20.5 8.5 21.5V20l2-1.5v-4.8L3 16v-2l7.5-4.5V4c0-1.1.7-2 1.5-2z"/><path d="M3 21.5h18"/></svg></span><div><div class="en">Departures</div><div class="pt">Partidas / Saídas</div></div></div>
+    <div class="sign-item"><span class="icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path fill="currentColor" stroke="none" transform="translate(12 10) rotate(135) scale(0.78) translate(-12 -12)" d="M12 2c.8 0 1.5.9 1.5 2v5.5l7.5 4.5v2l-7.5-2.3v4.8l2 1.5v1.5L12 20.5 8.5 21.5V20l2-1.5v-4.8L3 16v-2l7.5-4.5V4c0-1.1.7-2 1.5-2z"/><path d="M3 21.5h18"/></svg></span><div><div class="en">Arrivals</div><div class="pt">Chegadas</div></div></div>
+    <div class="sign-item"><span class="icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h14M15 5l3 3-3 3M20 16H6M9 13l-3 3 3 3"/></svg></span><div><div class="en">Connecting Flights / Transfers</div><div class="pt">Conexões / Transferências</div></div></div>
+    <div class="sign-item"><span class="icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g fill="currentColor" stroke="none"><circle cx="7" cy="4.4" r="1.8"/><rect x="5" y="7.4" width="4" height="7" rx="1.2"/><rect x="5.2" y="13" width="1.6" height="8" rx=".7"/><rect x="7.2" y="13" width="1.6" height="8" rx=".7"/><circle cx="17" cy="4.4" r="1.8"/><path d="M17 7.4l3.2 8.6h-6.4z"/><rect x="15.5" y="15" width="1.4" height="6" rx=".6"/><rect x="17.1" y="15" width="1.4" height="6" rx=".6"/></g><path d="M12 3v18"/></svg></span><div><div class="en">Restrooms</div><div class="pt">Banheiros</div></div></div>
+    <div class="sign-item"><span class="icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.5 8h13l-1 13h-11z"/><path d="M9 10V6.5a3 3 0 0 1 6 0V10"/></svg></span><div><div class="en">Duty Free</div><div class="pt">Loja Duty Free</div></div></div>
+    <div class="sign-item"><span class="icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M14.6 9.2c-.5-.9-1.5-1.5-2.6-1.5-1.4 0-2.5.8-2.5 2 0 2.8 5 1.6 5 4.5 0 1.2-1.1 2-2.5 2-1.1 0-2.1-.6-2.6-1.5M12 6v1.7M12 16.2V18"/></svg></span><div><div class="en">Currency Exchange</div><div class="pt">Casa de Câmbio</div></div></div>
+    <div class="sign-item"><span class="icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5"/><circle cx="12" cy="7.8" r="1" fill="currentColor" stroke="none"/></svg></span><div><div class="en">Information Desk</div><div class="pt">Balcão de Informações</div></div></div>
+    <div class="sign-item"><span class="icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="15" rx="2"/><path d="M5 11h14M5 7h14M7.5 18v2.5M16.5 18v2.5"/><circle cx="8.5" cy="14.5" r="1" fill="currentColor" stroke="none"/><circle cx="15.5" cy="14.5" r="1" fill="currentColor" stroke="none"/></svg></span><div><div class="en">Ground Transportation</div><div class="pt">Transporte Terrestre</div></div></div>
   </div>
 
   <div class="gr"><div class="gr-t">Placas de check-in e embarque</div></div>
   <div class="sign-grid">
-    <div class="sign-item"><span class="icon">📋</span><div><div class="en">Check-in Counters</div><div class="pt">Balcões de Check-in</div></div></div>
-    <div class="sign-item"><span class="icon">🖥</span><div><div class="en">Self Check-in / Kiosks</div><div class="pt">Check-in Automático</div></div></div>
-    <div class="sign-item"><span class="icon">🧳</span><div><div class="en">Baggage Drop</div><div class="pt">Entrega de Bagagem</div></div></div>
-    <div class="sign-item"><span class="icon">🚪</span><div><div class="en">Gate A1–A20</div><div class="pt">Portão A1–A20</div></div></div>
-    <div class="sign-item"><span class="icon">⏰</span><div><div class="en">Boarding / Now Boarding</div><div class="pt">Embarque / Embarcando Agora</div></div></div>
-    <div class="sign-item"><span class="icon">🔴</span><div><div class="en">Gate Closed</div><div class="pt">Portão Fechado</div></div></div>
-    <div class="sign-item"><span class="icon">⏳</span><div><div class="en">Delayed</div><div class="pt">Atrasado</div></div></div>
-    <div class="sign-item"><span class="icon">❌</span><div><div class="en">Cancelled</div><div class="pt">Cancelado</div></div></div>
+    <div class="sign-item"><span class="icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="12" width="18" height="8.5" rx="1"/><circle cx="12" cy="5.5" r="2.2"/><path d="M7.8 12c0-2.3 1.9-3.8 4.2-3.8s4.2 1.5 4.2 3.8"/></svg></span><div><div class="en">Check-in Counters</div><div class="pt">Balcões de Check-in</div></div></div>
+    <div class="sign-item"><span class="icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="10" rx="1.5"/><path d="M9 12.5 8 21h8l-1-8.5M10 16.5h4"/></svg></span><div><div class="en">Self Check-in / Kiosks</div><div class="pt">Check-in Automático</div></div></div>
+    <div class="sign-item"><span class="icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="8" width="14" height="11.5" rx="2"/><path d="M9.5 8V5.2h5V8M12 11v5.2M9.8 14l2.2 2.2 2.2-2.2"/></svg></span><div><div class="en">Baggage Drop</div><div class="pt">Entrega de Bagagem</div></div></div>
+    <div class="sign-item"><span class="icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 21V3.5h12V21M3 21h18"/><circle cx="15" cy="12.5" r=".9" fill="currentColor" stroke="none"/></svg></span><div><div class="en">Gate A1–A20</div><div class="pt">Portão A1–A20</div></div></div>
+    <div class="sign-item"><span class="icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span><div><div class="en">Boarding / Now Boarding</div><div class="pt">Embarque / Embarcando Agora</div></div></div>
+    <div class="sign-item"><span class="icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/></svg></span><div><div class="en">Gate Closed</div><div class="pt">Portão Fechado</div></div></div>
+    <div class="sign-item"><span class="icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h10M7 21h10M8 3v2.5c0 2.2 4 3.5 4 6.5s-4 4.3-4 6.5V21M16 3v2.5c0 2.2-4 3.5-4 6.5s4 4.3 4 6.5V21"/></svg></span><div><div class="en">Delayed</div><div class="pt">Atrasado</div></div></div>
+    <div class="sign-item"><span class="icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></svg></span><div><div class="en">Canceled</div><div class="pt">Cancelado</div></div></div>
   </div>
 
   <div class="gr"><div class="gr-t">Placas de segurança e imigração</div></div>
   <div class="sign-grid">
-    <div class="sign-item"><span class="icon">🔒</span><div><div class="en">Security Checkpoint</div><div class="pt">Controle de Segurança</div></div></div>
-    <div class="sign-item"><span class="icon">🛂</span><div><div class="en">Passport Control / Immigration</div><div class="pt">Controle de Passaportes</div></div></div>
-    <div class="sign-item"><span class="icon">🏛</span><div><div class="en">Customs / Nothing to Declare</div><div class="pt">Alfândega / Nada a Declarar</div></div></div>
-    <div class="sign-item"><span class="icon">📦</span><div><div class="en">Goods to Declare</div><div class="pt">Produtos a Declarar</div></div></div>
-    <div class="sign-item"><span class="icon">🧳</span><div><div class="en">Baggage Claim</div><div class="pt">Retirada de Bagagem</div></div></div>
-    <div class="sign-item"><span class="icon">🔎</span><div><div class="en">Random Inspection</div><div class="pt">Inspeção Aleatória</div></div></div>
-    <div class="sign-item"><span class="icon">🌐</span><div><div class="en">All Passports / Non-EU Citizens</div><div class="pt">Todos os Passaportes / Não-UE</div></div></div>
-    <div class="sign-item"><span class="icon">⚡</span><div><div class="en">Fast Track / Priority Lane</div><div class="pt">Fila Rápida / Fila Prioritária</div></div></div>
+    <div class="sign-item"><span class="icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5.5c0 4.5-3 8-7 9.5-4-1.5-7-5-7-9.5V6z"/><path d="M9 12l2 2 4-4"/></svg></span><div><div class="en">Security Checkpoint</div><div class="pt">Controle de Segurança</div></div></div>
+    <div class="sign-item"><span class="icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="3" width="12" height="18" rx="1.5"/><circle cx="12" cy="10" r="3"/><path d="M9 16h6"/></svg></span><div><div class="en">Passport Control / Immigration</div><div class="pt">Controle de Passaportes</div></div></div>
+    <div class="sign-item"><span class="icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20.5h18M4 9h16M12 3.5 20 8H4zM6.5 10.5v8M10 10.5v8M14 10.5v8M17.5 10.5v8"/></svg></span><div><div class="en">Customs / Nothing to Declare</div><div class="pt">Alfândega / Nada a Declarar</div></div></div>
+    <div class="sign-item"><span class="icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8l8-4 8 4v9l-8 4-8-4zM4 8l8 4 8-4M12 12v9"/></svg></span><div><div class="en">Goods to Declare</div><div class="pt">Produtos a Declarar</div></div></div>
+    <div class="sign-item"><span class="icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="6.5" width="12" height="12" rx="2"/><path d="M10 6.5V4h4v2.5M9.5 9.5v6M14.5 9.5v6"/><circle cx="8.5" cy="20.4" r="1" fill="currentColor" stroke="none"/><circle cx="15.5" cy="20.4" r="1" fill="currentColor" stroke="none"/></svg></span><div><div class="en">Baggage Claim</div><div class="pt">Retirada de Bagagem</div></div></div>
+    <div class="sign-item"><span class="icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5.5 5.5"/></svg></span><div><div class="en">Random Inspection</div><div class="pt">Inspeção Aleatória</div></div></div>
+    <div class="sign-item"><span class="icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/></svg></span><div><div class="en">All Passports / Non-EU Citizens</div><div class="pt">Todos os Passaportes / Não-UE</div></div></div>
+    <div class="sign-item"><span class="icon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 6l6 6-6 6M12 6l6 6-6 6"/></svg></span><div><div class="en">Fast Track / Priority Lane</div><div class="pt">Fila Rápida / Fila Prioritária</div></div></div>
   </div>
 
   <div class="bk cultural">
@@ -769,52 +761,11 @@ body{font-family:var(--fb);background:var(--bg);color:var(--ink);line-height:1.7
 <footer class="footer">
   <div class="footer-b">Airport, Flight & Immigration — English for Travelers</div>
   <p class="footer-t">Conteúdo exclusivo para fins educacionais.<br>Desenvolvido com excelência para alunos que buscam comunicação internacional de alto nível.</p>
+  <div class="sig">
+    <div><div class="sig-n">Thaiana Faria</div><div class="sig-r">Especialista em Inglês Médico e Comunicação Científica · MD Talk</div></div>
+    <div><div class="sig-n">Thiago Faria</div><div class="sig-r">Produção de Conteúdo Técnico · The Engine Lab</div></div>
+  </div>
 </footer>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p></main>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
+</main>
+</body>
+</html>
